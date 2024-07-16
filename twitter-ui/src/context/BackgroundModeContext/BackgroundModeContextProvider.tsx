@@ -6,7 +6,7 @@ const BackgroundModeContextProvider: React.FC<PropsWithChildren> = ({ children }
 
   return (
     <BackgroundModeContext.Provider value={{ bgMode, setBgMode }}>
-		{children}
+      {children}
     </BackgroundModeContext.Provider>
   );
 };
