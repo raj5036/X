@@ -1,59 +1,60 @@
-import { PaletteMode } from "@mui/material";
-import { amber, green, grey } from "@mui/material/colors";
+// import { PaletteMode } from '@mui/material';
+import { createTheme, Theme } from '@mui/material/styles';
 
-export const COLOR_MODES = {
-	BLUE: "Blue",
-	YELLOW: "Yellow",
-	PINK: "Pink",
-	PURPLE: "Purple",
-	ORANGE: "Orange",
-	GREEN: "Green",
-}
-
-export const BACKGROUND_MODES = {
-	DEFAULT: "Default",
-	DIM: "Dim",
-	LIGHTS_OUT: "Lights Out",
-}
-
-declare module "@mui/material/styles" {
-	interface TypeText {
-		success: string,
-		info: string,
+type PaletteModeExtended = 'light' | 'dark' | 'dim' | undefined 
+declare module '@mui/material/styles' {
+	interface Palette {
+		mode: PaletteModeExtended
+	}
+	interface PaletteOptions {
+		mode?: PaletteModeExtended
 	}
   }
 
-const Theme = (mode: PaletteMode) => ({
-	palette: {
-		mode,
-		...(mode === 'light'
-		? {
-			// palette values for light mode
-			primary: amber,
-			divider: grey[700],
-			text: {
-				primary: grey[900],
-				secondary: grey[800],
-				success: green['A700'],
-				info: '#ed6c02',
-			},
-		}
-		: {
-			// palette values for dark mode
-			primary: grey,
-			divider: grey[300],
-			background: {
-				default: grey[900],
-				paper: grey[900],
-			},
-			text: {
-				primary: grey[50],
-				secondary: grey[500],
-				success: green['A400'],
-				info: '#29b6f6',
-			},
-		}),
-	},
-  });
+export const lightTheme: Theme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#1976d2',
+    },
+    secondary: {
+      main: '#9c27b0',
+    },
+    background: {
+      default: '#f5f5f5',
+      paper: '#ffffff',
+    },
+  },
+})
 
-  export default Theme
+export const darkTheme: Theme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#90caf9',
+    },
+    secondary: {
+      main: '#ce93d8',
+    },
+    background: {
+      default: '#121212',
+      paper: '#424242',
+    },
+  },
+});
+
+export const dimTheme: Theme = createTheme({
+  palette: {
+    mode: 'dim',
+    primary: {
+      main: '#ff5722',
+    },
+    secondary: {
+      main: '#00e676',
+    },
+    background: {
+      default: '#ffecb3',
+      paper: '#ffffff',
+    },
+  },
+});

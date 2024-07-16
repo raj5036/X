@@ -1,19 +1,18 @@
-import { ThemeProvider } from "@emotion/react"
-import BackgroundModeContextProvider from "./context/BackgroundModeContext/BackgroundModeContextProvider"
-import ColorModeContextProvider from "./context/ColorModeContext/ColorModeContextProvider"
-import Theme from "./utils/Theme"
-import { CssBaseline } from "@mui/material"
+import { useContext } from "react"
+// import Theme from "./utils/Theme"
+// import { createTheme, CssBaseline, ThemeProvider } from "@mui/material"
+import ColorModeContext from "./context/ColorModeContext/ColorModeContext"
+import { ColorModeContextType } from "./context/ColorModeContext/Types"
+import { RouterProvider } from "react-router-dom"
+import router from "./routes/routes"
 
 const App = () => {
+  const { colorMode } = useContext(ColorModeContext) as ColorModeContextType
+  
+  console.log(colorMode);
+  
   return (
-    <BackgroundModeContextProvider>
-      <ColorModeContextProvider>
-        <ThemeProvider theme={Theme}>
-          <CssBaseline />
-          App
-        </ThemeProvider>
-      </ColorModeContextProvider>
-    </BackgroundModeContextProvider>
+        <RouterProvider router={router} />
   )
 }
 
