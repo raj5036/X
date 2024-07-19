@@ -1,18 +1,21 @@
-import { useContext } from "react"
-// import Theme from "./utils/Theme"
-// import { createTheme, CssBaseline, ThemeProvider } from "@mui/material"
-import ColorModeContext from "./context/ColorModeContext/ColorModeContext"
-import { ColorModeContextType } from "./context/ColorModeContext/Types"
 import { RouterProvider } from "react-router-dom"
 import router from "./routes/routes"
+import { useContext, useMemo } from "react"
+import BackgroundModeContext from "./context/BackgroundModeContext/BackgroundModeContext"
+import { BackgroundModeContextType } from "./context/BackgroundModeContext/Type"
+import { createTheme, ThemeProvider } from "@mui/material"
+import Theme from "./utils/Theme"
 
 const App = () => {
-  const { colorMode } = useContext(ColorModeContext) as ColorModeContextType
-  
-  console.log(colorMode);
-  
+  const { bgMode } = useContext(BackgroundModeContext) as BackgroundModeContextType
+  console.log(bgMode)
+
+  const theme = useMemo(() => createTheme(Theme(bgMode)), [bgMode])
+
   return (
+    <ThemeProvider theme={theme}>
         <RouterProvider router={router} />
+    </ThemeProvider>
   )
 }
 

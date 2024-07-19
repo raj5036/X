@@ -1,4 +1,6 @@
+import { PaletteMode } from "@mui/material"
+
 export interface BackgroundModeContextType {
-	bgMode: string
+	bgMode: PaletteMode
 	setBgMode: React.Dispatch<React.SetStateAction<string>>
 }
