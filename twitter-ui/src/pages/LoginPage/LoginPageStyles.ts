@@ -1,23 +1,30 @@
-import styled from "styled-components";
+import { styled } from "@mui/material/styles";
+
 
 export const LoginPageStyles = {
-	Container: styled("div")({
-		width: "100%",
-		display: "flex",
-		justifyContent: "center",
-		alignItems: "center",
-		height: "100vh",
+	Container: styled("div")(() => {
+		return {
+			display: 'flex',
+			justifyContent: "space-around",
+			alignItems: 'center',
+			height: '100%',
+			width: '100%',
+			color: "white",
+			backgroundColor: "black",
+		}
 	}),
-	ImageContainer: styled("div")({
-		"& img": {
-			width: "100%",
-			height: "100%",
-			objectFit: "cover",
-		},
+	TwitterLogo: styled("img")(({ theme }) => {
+		return {
+			height: theme.spacing(35),
+			width: theme.spacing(35),
+		}
 	}),
-	LoginContainer: styled("div")({
-		display: "flex",
-		justifyContent: "center",
-		alignItems: "center",
+	LoginFormContainer: styled("div")(() => {
+		return {
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center',
+			flexDirection: 'column',
+		}
 	}),
 }
