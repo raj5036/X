@@ -1,7 +1,16 @@
 import React from "react";
 import XLogo from '../../assets/images/logo-white.png'
-import { LoginPageStyles } from "./LoginPageStyles";
-import { Stack, Typography, useTheme } from "@mui/material";
+import { 
+	Caption, 
+	FormContainer, 
+	FormDivider, 
+	Header, 
+	LoginContainer, 
+	Logo, 
+	SignUpButton, 
+	SubHeader 
+} from "./LoginPageStyles";
+import { Typography, useTheme } from "@mui/material";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { Link } from "react-router-dom";
 
@@ -21,12 +30,11 @@ const LoginPage: React.FC = () => {
 	}
 
 	return (
-		<LoginPageStyles.Container>
-			<Stack direction={"row"} justifyContent={"center"} alignItems={"center"}>
-				<LoginPageStyles.TwitterLogo src={XLogo} alt="logo" />
-				<LoginPageStyles.LoginFormContainer>
-					<Typography variant="h2" fontWeight={"bold"}>Happening now</Typography>
-					<Typography variant="h4">Join today.</Typography>
+		<LoginContainer>
+				<Logo src={XLogo} alt="x-logo" />
+				<FormContainer>
+					<Header variant="h2" fontWeight={"bolder"}>Happening now</Header>
+					<SubHeader variant="h4">Join today.</SubHeader>
 					<GoogleLogin
 						size="large"
 						shape="pill"
@@ -38,11 +46,9 @@ const LoginPage: React.FC = () => {
 						onError={handleGoogleLoginFailure}
 				/>
 				
-				<LoginPageStyles.FormDivider 
-					textAlign="center"
-				>Or</LoginPageStyles.FormDivider>
+				<FormDivider textAlign="center">or</FormDivider>
 
-				<LoginPageStyles.SignUpButton
+				<SignUpButton
 					onClick={handleSignUpClick}
 				>
 					<Typography 
@@ -50,24 +56,24 @@ const LoginPage: React.FC = () => {
 						fontWeight={"bold"}
 						fontSize={theme.spacing(2)}
 					>Create account</Typography>
-				</LoginPageStyles.SignUpButton>
-				<Typography variant="caption">
-					By signing up, you agree to the 
+				</SignUpButton>
+				<Caption variant="caption">
+					By signing up, you agree to the {" "}
 					<Link to={"https://x.com/en/tos"}>
-						Terms of Service
-					</Link> and 
+						Terms of Service{" "}
+					</Link> and {" "}
 					<Link to={"https://x.com/en/privacy"}>
 						Privacy Policy
 					</Link>
-					, including 
+					, including {" "}
 					<Link to={"https://x.com/en/cookies"}>
 						Cookie Use.
 					</Link>
-				</Typography>
+				</Caption>
 				
-				</LoginPageStyles.LoginFormContainer>
-			</Stack>
-		</LoginPageStyles.Container>
+				</FormContainer>
+		
+		</LoginContainer>
 	)
 };
 
