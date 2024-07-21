@@ -32,6 +32,11 @@ const LoginPage: React.FC = () => {
 						onSuccess={handleGoogleLoginSuccess}
 						onError={handleGoogleLoginFailure}
 				/>
+				
+				<LoginPageStyles.FormDivider 
+					textAlign="center"
+				>Or</LoginPageStyles.FormDivider>
+				
 				</LoginPageStyles.LoginFormContainer>
 			</Stack>
 		</LoginPageStyles.Container>

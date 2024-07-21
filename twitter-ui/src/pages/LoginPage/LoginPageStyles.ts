@@ -1,3 +1,4 @@
+import { Divider } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 
@@ -22,9 +23,17 @@ export const LoginPageStyles = {
 	LoginFormContainer: styled("div")(() => {
 		return {
 			display: 'flex',
+			flexDirection: 'column',
 			justifyContent: 'center',
 			alignItems: 'center',
-			flexDirection: 'column',
+			textAlign: 'center',
 		}
 	}),
+	FormDivider: styled(Divider)(({ theme }) => {
+		return {
+			marginTop: theme.spacing(2),
+			marginBottom: theme.spacing(2),
+			width: theme.spacing(35),
+		}
+	})
 }
