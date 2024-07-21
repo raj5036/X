@@ -5,6 +5,7 @@ import BackgroundModeContext from "./context/BackgroundModeContext/BackgroundMod
 import { BackgroundModeContextType } from "./context/BackgroundModeContext/Type"
 import { createTheme, ThemeProvider } from "@mui/material"
 import Theme from "./utils/Theme"
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const App = () => {
   const { bgMode } = useContext(BackgroundModeContext) as BackgroundModeContextType
@@ -14,7 +15,9 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <GoogleOAuthProvider clientId="185616603109-puhovjb2bcord9aikkh9jv1slibsqbi3.apps.googleusercontent.com">
         <RouterProvider router={router} />
+      </GoogleOAuthProvider>
     </ThemeProvider>
   )
 }
