@@ -8,7 +8,7 @@ export const LoginPageStyles = {
 			display: 'flex',
 			justifyContent: "space-around",
 			alignItems: 'center',
-			height: '100%',
+			height: '100vh',
 			width: '100%',
 			color: "white",
 			backgroundColor: "black",

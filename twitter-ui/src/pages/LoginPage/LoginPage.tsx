@@ -3,6 +3,7 @@ import XLogo from '../../assets/images/logo-white.png'
 import { LoginPageStyles } from "./LoginPageStyles";
 import { Stack, Typography, useTheme } from "@mui/material";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+import { Link } from "react-router-dom";
 
 const LoginPage: React.FC = () => {
 	const theme = useTheme()
@@ -50,6 +51,19 @@ const LoginPage: React.FC = () => {
 						fontSize={theme.spacing(2)}
 					>Create account</Typography>
 				</LoginPageStyles.SignUpButton>
+				<Typography variant="caption">
+					By signing up, you agree to the 
+					<Link to={"https://x.com/en/tos"}>
+						Terms of Service
+					</Link> and 
+					<Link to={"https://x.com/en/privacy"}>
+						Privacy Policy
+					</Link>
+					, including 
+					<Link to={"https://x.com/en/cookies"}>
+						Cookie Use.
+					</Link>
+				</Typography>
 				
 				</LoginPageStyles.LoginFormContainer>
 			</Stack>
