@@ -7,6 +7,8 @@ import {
 	Header, 
 	LoginContainer, 
 	Logo, 
+	SignInButton, 
+	SignInContainer, 
 	SignUpButton, 
 	SubHeader 
 } from "./LoginPageStyles";
@@ -27,6 +29,10 @@ const LoginPage: React.FC = () => {
 
 	const handleSignUpClick = () => {
 		console.log('Sign up clicked');
+	}
+
+	const handleSignInClick = () => {
+		console.log('Sign in clicked');
 	}
 
 	return (
@@ -70,6 +76,11 @@ const LoginPage: React.FC = () => {
 						Cookie Use.
 					</Link>
 				</Caption>
+
+				<SignInContainer component={"div"}>
+					<Typography fontWeight={"bold"}>Already have an account?</Typography>
+					<SignInButton onClick={handleSignInClick}>Sign in</SignInButton>
+				</SignInContainer>
 				
 				</FormContainer>
 		

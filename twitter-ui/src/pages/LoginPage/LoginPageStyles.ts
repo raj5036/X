@@ -1,5 +1,6 @@
 import { Button, Divider, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { Box } from "@mui/system";
 
 export const LoginContainer = styled("div")(() => `
 	display: flex;
@@ -64,4 +65,21 @@ export const SignUpButton = styled(Button)(({ theme }) => `
 	:hover {
 		background-color: rgb(26, 140, 216);
 	}
+`)
+
+export const SignInContainer = styled(Box)(({ theme }) => `
+	text-align: left;
+	margin-top: ${theme.spacing(3.8)};
+`)
+
+export const SignInButton = styled(Button)(({ theme }) => `
+	margin-top: ${theme.spacing(2)};
+	padding: ${theme.spacing(0.5)};
+	color: rgb(29, 155, 240);
+	background-color: black;
+	height: ${theme.spacing(5)};
+	width: ${theme.spacing(35)};
+	border-radius: ${theme.spacing(3)};
+	text-transform: none;
+	border: 1px solid rgb(29, 155, 240);
 `)
