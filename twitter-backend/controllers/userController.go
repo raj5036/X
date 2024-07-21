@@ -1,27 +1,35 @@
 package controllers
 
 import (
+	"context"
 	"fmt"
 	"net/http"
-	"os"
 
 	"github.com/joho/godotenv"
 	"github.com/raj5036/x/utils"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
+
+const DATABASE string = "X"
+const COLLECTION string = "users"
+
+var Users *mongo.Collection
 
 func init() {
 	err := godotenv.Load()
 	utils.HandleError(err)
 
-	dbHost := os.Getenv("DB_HOST")
-	dbPort := os.Getenv("DB_PORT")
-	dbUser := os.Getenv("DB_USER")
-	dbPassword := os.Getenv("DB_PASSWORD")
+	connectionString := utils.GetMongoConnectionString()
+	clientOptions := options.Client().ApplyURI(connectionString)
 
-	fmt.Printf("DB_HOST: %s\n", dbHost)
-	fmt.Printf("DB_PORT: %s\n", dbPort)
-	fmt.Printf("DB_USER: %s\n", dbUser)
-	fmt.Printf("DB_PASSWORD: %s\n", dbPassword)
+	//connect to mongodb
+	client, err := mongo.Connect(context.TODO(), clientOptions)
+	utils.HandleError(err)
+	fmt.Println("Connected to MongoDB!")
+
+	Users = client.Database(DATABASE).Collection(COLLECTION)
+	fmt.Println("Collection instance is ready!")
 }
 
 func RegisterUser(w http.ResponseWriter, r *http.Request) {
