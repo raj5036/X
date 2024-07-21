@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import XLogo from '../../assets/images/logo-white.png'
 import { 
 	Caption, 
@@ -15,8 +15,11 @@ import {
 import { Typography, useTheme } from "@mui/material";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { Link } from "react-router-dom";
+import SignupModal from "../../components/SignupModal/SignupModal";
 
 const LoginPage: React.FC = () => {
+	const [signUpModalOpen, setSignUpModalOpen] = useState(false)
+
 	const theme = useTheme()
 
 	const handleGoogleLoginSuccess = (credentialResponse: CredentialResponse) => {
@@ -29,10 +32,15 @@ const LoginPage: React.FC = () => {
 
 	const handleSignUpClick = () => {
 		console.log('Sign up clicked');
+		setSignUpModalOpen(true)
 	}
 
 	const handleSignInClick = () => {
 		console.log('Sign in clicked');
+	}
+
+	const handleModalClose = () => {
+		setSignUpModalOpen(false)
 	}
 
 	return (
@@ -81,9 +89,11 @@ const LoginPage: React.FC = () => {
 					<Typography fontWeight={"bold"}>Already have an account?</Typography>
 					<SignInButton onClick={handleSignInClick}>Sign in</SignInButton>
 				</SignInContainer>
-				
-				</FormContainer>
-		
+			</FormContainer>
+			<SignupModal 
+				open={signUpModalOpen}
+				onClose={handleModalClose}
+			/>
 		</LoginContainer>
 	)
 };
