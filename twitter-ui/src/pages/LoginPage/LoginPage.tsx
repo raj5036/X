@@ -15,6 +15,10 @@ const LoginPage: React.FC = () => {
 		console.log('Login Failed');
 	}
 
+	const handleSignUpClick = () => {
+		console.log('Sign up clicked');
+	}
+
 	return (
 		<LoginPageStyles.Container>
 			<Stack direction={"row"} justifyContent={"center"} alignItems={"center"}>
@@ -36,6 +40,16 @@ const LoginPage: React.FC = () => {
 				<LoginPageStyles.FormDivider 
 					textAlign="center"
 				>Or</LoginPageStyles.FormDivider>
+
+				<LoginPageStyles.SignUpButton
+					onClick={handleSignUpClick}
+				>
+					<Typography 
+						variant="h6" 
+						fontWeight={"bold"}
+						fontSize={theme.spacing(2)}
+					>Create account</Typography>
+				</LoginPageStyles.SignUpButton>
 				
 				</LoginPageStyles.LoginFormContainer>
 			</Stack>
