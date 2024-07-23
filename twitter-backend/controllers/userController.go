@@ -11,6 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var DatabaseUri string = utils.GetDatabaseHost()
@@ -52,6 +53,9 @@ func CreateUser(userInput model.CreateUserInput) (*model.User, error) {
 		}
 	}
 
+	// Hash Password
+	userInput.Password = hashPassword(userInput.Password)
+
 	// Create new User
 	inserted, err := Users.InsertOne(context.Background(), userInput)
 	utils.HandleError(err, "Error creating new User")
@@ -65,6 +69,12 @@ func CreateUser(userInput model.CreateUserInput) (*model.User, error) {
 		Dob:         userInput.Dob,
 	}
 	return &user, nil
+}
+
+func hashPassword(password string) string {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	utils.HandleError(err, "Error hashing password")
+	return string(bytes)
 }
 
 func findUser(filter primitive.M) model.User {
