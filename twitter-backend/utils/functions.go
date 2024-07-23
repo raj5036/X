@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/joho/godotenv"
 )
 
 func HandleError(err error, msg string) {
@@ -13,10 +15,12 @@ func HandleError(err error, msg string) {
 }
 
 func GetDatabaseHost() string {
+	err := godotenv.Load()
+	HandleError(err, "Error loading .env file")
+
 	dbHost := os.Getenv("DB_HOST")
 	fmt.Println("dbHost", dbHost)
 	dbUser := os.Getenv("DB_USER")
-	fmt.Println("dbUser", dbUser)
 	dbPassword := os.Getenv("DB_PASSWORD")
 
 	dbHost = strings.Replace(dbHost, "<username>", dbUser, 1)

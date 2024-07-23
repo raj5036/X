@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -23,7 +22,6 @@ func main() {
 	if port == "" {
 		port = defaultPort
 	}
-	fmt.Println("main", os.Getenv("DB_HOST"))
 
 	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
 

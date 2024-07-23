@@ -12,13 +12,12 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-var DatabaseUri string = "mongodb+srv://root:root@cluster0.dzz8o1o.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+var DatabaseUri string = utils.GetDatabaseHost()
 var Users *mongo.Collection
 
 func init() {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	fmt.Println("DatabaseUri", DatabaseUri)
 
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(DatabaseUri))
 	utils.HandleError(err, "Error connecting to MongoDB")
