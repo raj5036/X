@@ -96,6 +96,7 @@ type ComplexityRoot struct {
 		ID          func(childComplexity int) int
 		Likes       func(childComplexity int) int
 		Name        func(childComplexity int) int
+		Password    func(childComplexity int) int
 		PhoneNumber func(childComplexity int) int
 		Retweets    func(childComplexity int) int
 		Tweets      func(childComplexity int) int
@@ -361,6 +362,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.User.Name(childComplexity), true
+
+	case "User.password":
+		if e.complexity.User.Password == nil {
+			break
+		}
+
+		return e.complexity.User.Password(childComplexity), true
 
 	case "User.phoneNumber":
 		if e.complexity.User.PhoneNumber == nil {
@@ -757,6 +765,8 @@ func (ec *executionContext) fieldContext_Comment_author(_ context.Context, field
 				return ec.fieldContext_User_phoneNumber(ctx, field)
 			case "email":
 				return ec.fieldContext_User_email(ctx, field)
+			case "password":
+				return ec.fieldContext_User_password(ctx, field)
 			case "DOB":
 				return ec.fieldContext_User_DOB(ctx, field)
 			case "tweets":
@@ -920,6 +930,8 @@ func (ec *executionContext) fieldContext_Like_user(_ context.Context, field grap
 				return ec.fieldContext_User_phoneNumber(ctx, field)
 			case "email":
 				return ec.fieldContext_User_email(ctx, field)
+			case "password":
+				return ec.fieldContext_User_password(ctx, field)
 			case "DOB":
 				return ec.fieldContext_User_DOB(ctx, field)
 			case "tweets":
@@ -1090,6 +1102,8 @@ func (ec *executionContext) fieldContext_Mutation_createUser(ctx context.Context
 				return ec.fieldContext_User_phoneNumber(ctx, field)
 			case "email":
 				return ec.fieldContext_User_email(ctx, field)
+			case "password":
+				return ec.fieldContext_User_password(ctx, field)
 			case "DOB":
 				return ec.fieldContext_User_DOB(ctx, field)
 			case "tweets":
@@ -1234,6 +1248,8 @@ func (ec *executionContext) fieldContext_Query_users(_ context.Context, field gr
 				return ec.fieldContext_User_phoneNumber(ctx, field)
 			case "email":
 				return ec.fieldContext_User_email(ctx, field)
+			case "password":
+				return ec.fieldContext_User_password(ctx, field)
 			case "DOB":
 				return ec.fieldContext_User_DOB(ctx, field)
 			case "tweets":
@@ -1295,6 +1311,8 @@ func (ec *executionContext) fieldContext_Query_user(ctx context.Context, field g
 				return ec.fieldContext_User_phoneNumber(ctx, field)
 			case "email":
 				return ec.fieldContext_User_email(ctx, field)
+			case "password":
+				return ec.fieldContext_User_password(ctx, field)
 			case "DOB":
 				return ec.fieldContext_User_DOB(ctx, field)
 			case "tweets":
@@ -1670,6 +1688,8 @@ func (ec *executionContext) fieldContext_Retweet_user(_ context.Context, field g
 				return ec.fieldContext_User_phoneNumber(ctx, field)
 			case "email":
 				return ec.fieldContext_User_email(ctx, field)
+			case "password":
+				return ec.fieldContext_User_password(ctx, field)
 			case "DOB":
 				return ec.fieldContext_User_DOB(ctx, field)
 			case "tweets":
@@ -1881,6 +1901,8 @@ func (ec *executionContext) fieldContext_Tweet_author(_ context.Context, field g
 				return ec.fieldContext_User_phoneNumber(ctx, field)
 			case "email":
 				return ec.fieldContext_User_email(ctx, field)
+			case "password":
+				return ec.fieldContext_User_password(ctx, field)
 			case "DOB":
 				return ec.fieldContext_User_DOB(ctx, field)
 			case "tweets":
@@ -2253,6 +2275,47 @@ func (ec *executionContext) _User_email(ctx context.Context, field graphql.Colle
 }
 
 func (ec *executionContext) fieldContext_User_email(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _User_password(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_User_password(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Password, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_User_password(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "User",
 		Field:      field,
@@ -4331,7 +4394,7 @@ func (ec *executionContext) unmarshalInputCreateUserInput(ctx context.Context, o
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "phoneNumber", "email", "DOB"}
+	fieldsInOrder := [...]string{"name", "password", "phoneNumber", "email", "DOB"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -4345,6 +4408,13 @@ func (ec *executionContext) unmarshalInputCreateUserInput(ctx context.Context, o
 				return it, err
 			}
 			it.Name = data
+		case "password":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("password"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Password = data
 		case "phoneNumber":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("phoneNumber"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -4795,6 +4865,8 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			out.Values[i] = ec._User_phoneNumber(ctx, field, obj)
 		case "email":
 			out.Values[i] = ec._User_email(ctx, field, obj)
+		case "password":
+			out.Values[i] = ec._User_password(ctx, field, obj)
 		case "DOB":
 			out.Values[i] = ec._User_DOB(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
