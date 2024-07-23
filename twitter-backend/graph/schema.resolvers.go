@@ -11,14 +11,34 @@ import (
 	"github.com/raj5036/x/twitter-backend/graph/model"
 )
 
-// CreateTodo is the resolver for the createTodo field.
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: CreateTodo - createTodo"))
+// CreateUser is the resolver for the createUser field.
+func (r *mutationResolver) CreateUser(ctx context.Context, input model.CreateUserInput) (*model.User, error) {
+	panic(fmt.Errorf("not implemented: CreateUser - createUser"))
 }
 
-// Todos is the resolver for the todos field.
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: Todos - todos"))
+// CreateTweet is the resolver for the createTweet field.
+func (r *mutationResolver) CreateTweet(ctx context.Context, input model.CreateTweetInput) (*model.Tweet, error) {
+	panic(fmt.Errorf("not implemented: CreateTweet - createTweet"))
+}
+
+// Users is the resolver for the users field.
+func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
+	panic(fmt.Errorf("not implemented: Users - users"))
+}
+
+// User is the resolver for the user field.
+func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error) {
+	panic(fmt.Errorf("not implemented: User - user"))
+}
+
+// Tweets is the resolver for the tweets field.
+func (r *queryResolver) Tweets(ctx context.Context) ([]*model.Tweet, error) {
+	panic(fmt.Errorf("not implemented: Tweets - tweets"))
+}
+
+// Tweet is the resolver for the tweet field.
+func (r *queryResolver) Tweet(ctx context.Context, id string) (*model.Tweet, error) {
+	panic(fmt.Errorf("not implemented: Tweet - tweet"))
 }
 
 // Mutation returns MutationResolver implementation.
