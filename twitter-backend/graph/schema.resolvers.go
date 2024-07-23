@@ -8,12 +8,14 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/raj5036/x/twitter-backend/controllers"
 	"github.com/raj5036/x/twitter-backend/graph/model"
 )
 
 // CreateUser is the resolver for the createUser field.
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.CreateUserInput) (*model.User, error) {
-	panic(fmt.Errorf("not implemented: CreateUser - createUser"))
+	// panic(fmt.Errorf("not implemented: CreateUser - createUser"))
+	return controllers.CreateUser(input), nil
 }
 
 // CreateTweet is the resolver for the createTweet field.
