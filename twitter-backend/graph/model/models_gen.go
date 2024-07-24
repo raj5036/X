@@ -2,6 +2,10 @@
 
 package model
 
+type AuthPayload struct {
+	Token string `json:"token"`
+}
+
 type Comment struct {
 	ID      string `json:"_id"`
 	Content string `json:"content"`
@@ -27,6 +31,11 @@ type Like struct {
 	User    *User    `json:"user"`
 	Tweet   *Tweet   `json:"tweet,omitempty"`
 	Comment *Comment `json:"comment,omitempty"`
+}
+
+type LoginUserInput struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
 type Mutation struct {
@@ -56,7 +65,7 @@ type User struct {
 	Name        string     `json:"name"`
 	PhoneNumber *string    `json:"phoneNumber,omitempty"`
 	Email       *string    `json:"email,omitempty"`
-	Password    *string    `json:"password,omitempty"`
+	Password    string     `json:"password"`
 	Dob         string     `json:"DOB"`
 	Tweets      []*Tweet   `json:"tweets,omitempty"`
 	Likes       []*Like    `json:"likes,omitempty"`

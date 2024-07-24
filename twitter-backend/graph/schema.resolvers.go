@@ -17,6 +17,11 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.CreateUse
 	return controllers.CreateUser(input)
 }
 
+// Login is the resolver for the login field.
+func (r *mutationResolver) Login(ctx context.Context, input model.LoginUserInput) (*model.AuthPayload, error) {
+	return controllers.LoginUser(input)
+}
+
 // CreateTweet is the resolver for the createTweet field.
 func (r *mutationResolver) CreateTweet(ctx context.Context, input model.CreateTweetInput) (*model.Tweet, error) {
 	panic(fmt.Errorf("not implemented: CreateTweet - createTweet"))

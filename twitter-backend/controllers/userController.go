@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/raj5036/x/twitter-backend/graph/model"
 	"github.com/raj5036/x/twitter-backend/utils"
 	"go.mongodb.org/mongo-driver/bson"
@@ -16,6 +17,7 @@ import (
 
 var DatabaseUri string = utils.GetDatabaseHost()
 var Users *mongo.Collection
+var secretKey = []byte("secret")
 
 func init() {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -71,6 +73,21 @@ func CreateUser(userInput model.CreateUserInput) (*model.User, error) {
 	return &user, nil
 }
 
+func LoginUser(loginInput model.LoginUserInput) (*model.AuthPayload, error) {
+	user := findUser(bson.M{"email": loginInput.Email})
+	if user.Name == "" {
+		return nil, fmt.Errorf("user with given email doesn't exist")
+	}
+
+	passwordMatch := comparePassword(loginInput.Password, user.Password)
+	if !passwordMatch {
+		return nil, fmt.Errorf("incorrect password")
+	}
+
+	tokenString := createUserToken(user)
+	return &model.AuthPayload{Token: tokenString}, nil
+}
+
 func GetAllUsers() ([]*model.User, error) {
 	Users, err := Users.Find(context.Background(), bson.M{})
 	utils.HandleError(err, "Error getting all Users")
@@ -89,6 +106,24 @@ func hashPassword(password string) string {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
 	utils.HandleError(err, "Error hashing password")
 	return string(bytes)
+}
+
+func comparePassword(password string, hashedPassword string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
+	return err == nil
+}
+
+func createUserToken(user model.User) string {
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"name":  user.Name,
+		"email": user.Email,
+		"exp":   time.Now().Add(time.Hour * 24).Unix(),
+	})
+
+	tokenString, err := token.SignedString(secretKey)
+	utils.HandleError(err, "Error signing token")
+
+	return tokenString
 }
 
 func findUser(filter primitive.M) model.User {

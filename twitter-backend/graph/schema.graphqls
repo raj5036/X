@@ -7,7 +7,7 @@ type User {
   name: String!,
   phoneNumber: String,
   email: String,
-  password: String,
+  password: String!,
   DOB: String!,
   tweets: [Tweet!],
   likes: [Like!],
@@ -54,7 +54,12 @@ type Query {
 
 type Mutation {
   createUser (input: CreateUserInput!): User!
+  login (input: LoginUserInput!): AuthPayload!
   createTweet (input: CreateTweetInput!): Tweet!
+}
+
+type AuthPayload {
+  token: String!
 }
 
 input CreateUserInput {
@@ -63,6 +68,11 @@ input CreateUserInput {
   phoneNumber: String,
   email: String,
   DOB: String!
+}
+
+input LoginUserInput {
+  email: String!,
+  password: String!
 }
 
 input CreateTweetInput {
