@@ -71,6 +71,20 @@ func CreateUser(userInput model.CreateUserInput) (*model.User, error) {
 	return &user, nil
 }
 
+func GetAllUsers() ([]*model.User, error) {
+	Users, err := Users.Find(context.Background(), bson.M{})
+	utils.HandleError(err, "Error getting all Users")
+
+	var users []*model.User
+	for Users.Next(context.Background()) {
+		var user model.User
+		err := Users.Decode(&user)
+		utils.HandleError(err, "Error decoding User")
+		users = append(users, &user)
+	}
+	return users, nil
+}
+
 func hashPassword(password string) string {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
 	utils.HandleError(err, "Error hashing password")
