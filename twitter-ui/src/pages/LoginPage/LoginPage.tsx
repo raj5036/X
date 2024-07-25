@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 import SignupModal from "../../components/SignupModal/SignupModal";
 
 const LoginPage: React.FC = () => {
-	const [signUpModalOpen, setSignUpModalOpen] = useState(false)
+	const [signUpModalOpen, setSignUpModalOpen] = useState<boolean>(true)
 
 	const theme = useTheme()
 
@@ -44,57 +44,59 @@ const LoginPage: React.FC = () => {
 	}
 
 	return (
-		<LoginContainer>
-				<Logo src={XLogo} alt="x-logo" />
-				<FormContainer>
-					<Header variant="h2" fontWeight={"bolder"}>Happening now</Header>
-					<SubHeader variant="h4">Join today.</SubHeader>
-					<GoogleLogin
-						size="large"
-						shape="pill"
-						logo_alignment="center"
-						theme="outline"
-						width={theme.spacing(35)}
-						cancel_on_tap_outside={true}
-						onSuccess={handleGoogleLoginSuccess}
-						onError={handleGoogleLoginFailure}
-				/>
-				
-				<FormDivider textAlign="center">or</FormDivider>
+		<React.Fragment>
+			<LoginContainer>
+					<Logo src={XLogo} alt="x-logo" />
+					<FormContainer>
+						<Header variant="h2" fontWeight={"bolder"}>Happening now</Header>
+						<SubHeader variant="h4">Join today.</SubHeader>
+						<GoogleLogin
+							size="large"
+							shape="pill"
+							logo_alignment="center"
+							theme="outline"
+							width={theme.spacing(35)}
+							cancel_on_tap_outside={true}
+							onSuccess={handleGoogleLoginSuccess}
+							onError={handleGoogleLoginFailure}
+					/>
+					
+					<FormDivider textAlign="center">or</FormDivider>
 
-				<SignUpButton
-					onClick={handleSignUpClick}
-				>
-					<Typography 
-						variant="h6" 
-						fontWeight={"bold"}
-						fontSize={theme.spacing(2)}
-					>Create account</Typography>
-				</SignUpButton>
-				<Caption variant="caption">
-					By signing up, you agree to the {" "}
-					<Link to={"https://x.com/en/tos"}>
-						Terms of Service{" "}
-					</Link> and {" "}
-					<Link to={"https://x.com/en/privacy"}>
-						Privacy Policy
-					</Link>
-					, including {" "}
-					<Link to={"https://x.com/en/cookies"}>
-						Cookie Use.
-					</Link>
-				</Caption>
+					<SignUpButton
+						onClick={handleSignUpClick}
+					>
+						<Typography 
+							variant="h6" 
+							fontWeight={"bold"}
+							fontSize={theme.spacing(2)}
+						>Create account</Typography>
+					</SignUpButton>
+					<Caption variant="caption">
+						By signing up, you agree to the {" "}
+						<Link to={"https://x.com/en/tos"}>
+							Terms of Service{" "}
+						</Link> and {" "}
+						<Link to={"https://x.com/en/privacy"}>
+							Privacy Policy
+						</Link>
+						, including {" "}
+						<Link to={"https://x.com/en/cookies"}>
+							Cookie Use.
+						</Link>
+					</Caption>
 
-				<SignInContainer component={"div"}>
-					<Typography fontWeight={"bold"}>Already have an account?</Typography>
-					<SignInButton onClick={handleSignInClick}>Sign in</SignInButton>
-				</SignInContainer>
-			</FormContainer>
+					<SignInContainer component={"div"}>
+						<Typography fontWeight={"bold"}>Already have an account?</Typography>
+						<SignInButton onClick={handleSignInClick}>Sign in</SignInButton>
+					</SignInContainer>
+				</FormContainer>
+			</LoginContainer>
 			<SignupModal 
 				open={signUpModalOpen}
 				onClose={handleModalClose}
 			/>
-		</LoginContainer>
+		</React.Fragment>
 	)
 };
 
