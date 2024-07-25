@@ -1,8 +1,8 @@
-import { Dialog, Typography } from "@mui/material";
+import { Box, Dialog, Stack, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const DialogWrapper = styled(Dialog)(({ theme }) => `
-	height: ${theme.spacing(50)};
+	height: ${theme.spacing(70)};
 	width: ${theme.spacing(80)};
 	position: fixed;
 	top: 50%;
@@ -11,6 +11,9 @@ export const DialogWrapper = styled(Dialog)(({ theme }) => `
 	color: white;
 	background-color: black;
 	border: 1px solid white;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
 
 	& .MuiPaper-root {
 		color: white;
@@ -19,7 +22,29 @@ export const DialogWrapper = styled(Dialog)(({ theme }) => `
 		padding: 0;
 	}
 `)
+		
+		// margin-top: -${theme.spacing(18)};
+export const TextFieldContainer = styled(Stack)(() => `
+	& .MuiInputBase-input {
+		color: white;
+	}
+`)
 
-export const ChangeSignupMode = styled(Typography)(() => `
+export const SignupMode = styled(Box)(() => `
+	text-align: right;
+	width: 100%;
+
+	& .MuiTextField-root {
+	}
+`)
+
+export const ChangeSignupMode = styled(Typography)(({ theme }) => `
 	cursor: pointer;
+	position: relative;
+	right: 0;
+	margin-top: ${theme.spacing(1)};
+	color: #1D9BF0;
+	:hover {
+		text-decoration: underline;
+	}
 `)
