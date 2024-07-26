@@ -1,15 +1,24 @@
-import { 
-	DialogContent, 
-	DialogTitle, 
+import {  
 	IconButton, 
 	MenuItem,
 	Stack, 
 	TextField, 
 	Typography, 
+	Box,
+	useTheme
 } from "@mui/material"
 import React, { useState } from "react"
-import { ChangeSignupMode, DialogWrapper, DOBContainer, SignupMode, TextFieldContainer } from "./SignupModalStyles"
+import { 
+	DOBContainer, 
+	ModalContent, 
+	ModalHeaderControls, 
+	ModalWrapper, 
+	SignupMode, 
+	TextFieldContainer, 
+	XLogo
+} from "./SignupModalStyles"
 import CloseIcon from '@mui/icons-material/Close'
+import XWhiteLogo from '../../assets/images/logo-white.png'
 
 type ComponentProps = {
 	open: boolean,
@@ -57,125 +66,142 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 		onClose()
 	}
 
+	const theme = useTheme()
+
 	return (
-		<DialogWrapper open={open} onClose={handleModalClose} aria-labelledby="signup-modal">
-			<DialogTitle id="signup-modal">Create your account</DialogTitle>
-			<IconButton
-				aria-label="close"
-				onClick={handleModalClose}
-				sx={{
-					position: 'absolute',
-					right: 8,
-					top: 8,
-					color: (theme) => theme.palette.grey[500],
-				}}
+		<ModalWrapper 
+			open={open} 
+			onClose={handleModalClose} 
+			aria-labelledby="signup-modal"
+		>
+			<Box component={"div"}>
+				<ModalHeaderControls 
+					direction={"row"} 
+					justifyContent={"flex-start"} 
+					alignItems={"center"}
+					gap={theme.spacing(28)}
 				>
-				<CloseIcon />
-			</IconButton>
-			<DialogContent>
-				<TextFieldContainer direction={"column"} spacing={2}>
-					<TextField 
-						id="name-input"
-						label="Name"
-						type="text"
-						variant="outlined"
-						required
-						fullWidth
-						color="info"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
+					<IconButton
+						aria-label="close"
+						onClick={handleModalClose}
+						sx={{
+							color: (theme) => theme.palette.grey[500],
+						}}
+						>
+						<CloseIcon />
+					</IconButton>
+					<XLogo
+						src={XWhiteLogo}
+						alt="x-logo"
 					/>
-					<SignupMode> 
-						{signupMode === "phone" && <TextField
-							id="phone-input"
-							label="Phone"
-							variant="outlined"
-							type="number"
-							required
-							fullWidth
-							color="info"
-							value={phoneNumber}
-							onChange={(e) => setPhoneNumber(e.target.value)}
-						/>}
-
-						{signupMode === "email" && <TextField
-							id="email-input"
-							label="Email"
-							type="email"
+				</ModalHeaderControls>
+				<ModalContent>
+					<Typography className="title">Create your account</Typography>
+					<TextFieldContainer direction={"column"} spacing={2}>
+						<TextField 
+							id="name-input"
+							label="Name"
+							type="text"
 							variant="outlined"
 							required
 							fullWidth
 							color="info"
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
-						/>}
-						<ChangeSignupMode 
-							variant="body2"
-							onClick={() => setSignupMode(signupMode == "phone" ? "email" : "phone")}
-						>
-							{signupMode == "phone" ? "Use email instead" : "Use phone instead"}
-						</ChangeSignupMode>
-					</SignupMode>
-				</TextFieldContainer>
-				<DOBContainer>
-					<Typography variant="body1" fontWeight={"bold"}>Date of Birth</Typography>
-					<Typography variant="caption">
-						This will not be shown publicly. Confirm your own age, even if this account is for a business,
-						a pet, or something else.
-					</Typography>
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+						/>
+						<SignupMode> 
+							{signupMode === "phone" && <TextField
+								id="phone-input"
+								label="Phone"
+								variant="outlined"
+								type="number"
+								required
+								fullWidth
+								color="info"
+								value={phoneNumber}
+								onChange={(e) => setPhoneNumber(e.target.value)}
+							/>}
 
-					<Stack direction={"row"} spacing={2}>
-						<TextField
-							className="month-input"
-							label="Month"
-							fullWidth
-							select
-							color="info"
-							required
-							value={month}
-							onChange={(e) => setMonth(e.target.value)}
-						>
-							{getMonths().map((month) => <MenuItem key={month + 'month-input'} value={month}>{month}</MenuItem>)}
-						</TextField>
-
-						<TextField
-							className="day-input"
-							label="Day"
-							fullWidth
-							select
-							color="info"
-							required
-							value={day}
-							onChange={(e) => setDay(e.target.value)}
-						>
-							{Array.from({ length: 31 }, (_, i) => i + 1).map((day) => <MenuItem 
-								key={day + 'day-input'}
-								value={day}
+							{signupMode === "email" && <TextField
+								id="email-input"
+								label="Email"
+								type="email"
+								variant="outlined"
+								required
+								fullWidth
+								color="info"
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
+							/>}
+							<Typography 
+								className="signup-mode-text"
+								variant="body2"
+								onClick={() => setSignupMode(signupMode == "phone" ? "email" : "phone")}
 							>
-								{day}
-							</MenuItem>)}
-						</TextField>
+								{signupMode == "phone" ? "Use email instead" : "Use phone instead"}
+							</Typography>
+						</SignupMode>
+					</TextFieldContainer>
+					<DOBContainer>
+						<Typography variant="body1" fontWeight={"bold"}>Date of Birth</Typography>
+						<Typography variant="caption">
+							This will not be shown publicly. Confirm your own age, even if this account is for a business,
+							a pet, or something else.
+						</Typography>
 
-						<TextField
-							className="year-input"
-							label="Year"
-							select
-							fullWidth
-							color="info"
-							required
-							value={year}
-							onChange={(e) => setYear(e.target.value)}
-						>
-							{Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map((year) => <MenuItem 
-								key={year + 'year-input'}
-								value={year}>
-									{year}
+						<Stack direction={"row"} spacing={2}>
+							<TextField
+								className="month-input"
+								label="Month"
+								fullWidth
+								select
+								color="info"
+								required
+								value={month}
+								onChange={(e) => setMonth(e.target.value)}
+							>
+								{getMonths().map((month) => <MenuItem key={month + 'month-input'} value={month}>{month}</MenuItem>)}
+							</TextField>
+
+							<TextField
+								className="day-input"
+								label="Day"
+								fullWidth
+								select
+								color="info"
+								required
+								value={day}
+								onChange={(e) => setDay(e.target.value)}
+							>
+								{Array.from({ length: 31 }, (_, i) => i + 1).map((day) => <MenuItem 
+									key={day + 'day-input'}
+									value={day}
+								>
+									{day}
 								</MenuItem>)}
-						</TextField>
-					</Stack>
-				</DOBContainer>
-			</DialogContent>
-		</DialogWrapper>
+							</TextField>
+
+							<TextField
+								className="year-input"
+								label="Year"
+								select
+								fullWidth
+								color="info"
+								required
+								value={year}
+								onChange={(e) => setYear(e.target.value)}
+							>
+								{Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map((year) => <MenuItem 
+									key={year + 'year-input'}
+									value={year}>
+										{year}
+									</MenuItem>)}
+							</TextField>
+						</Stack>
+					</DOBContainer>
+					</ModalContent>
+			</Box>
+		</ModalWrapper>
 	)
 }
 
