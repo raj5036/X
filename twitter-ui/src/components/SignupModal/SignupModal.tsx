@@ -126,21 +126,26 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 
 					<Stack direction={"row"} spacing={2}>
 						<TextField
+							className="month-input"
 							label="Month"
+							fullWidth
+							select
+							color="info"
+							required
 							value={month}
 							onChange={(e) => setMonth(e.target.value)}
-							select
-							fullWidth
 						>
 							{getMonths().map((month) => <MenuItem key={month + 'month-input'} value={month}>{month}</MenuItem>)}
 						</TextField>
 
 						<TextField
-							id="day-input"
+							className="day-input"
 							label="Day"
 							fullWidth
-							value={day}
 							select
+							color="info"
+							required
+							value={day}
 							onChange={(e) => setDay(e.target.value)}
 						>
 							{Array.from({ length: 31 }, (_, i) => i + 1).map((day) => <MenuItem 
@@ -152,11 +157,13 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 						</TextField>
 
 						<TextField
-							id="year-input"
+							className="year-input"
 							label="Year"
-							value={year}
 							select
 							fullWidth
+							color="info"
+							required
+							value={year}
 							onChange={(e) => setYear(e.target.value)}
 						>
 							{Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map((year) => <MenuItem 
