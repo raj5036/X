@@ -13,7 +13,7 @@ import {
 	ModalContent, 
 	ModalHeaderControls, 
 	ModalWrapper, 
-	SignupMode, 
+	NextButton,  
 	TextFieldContainer, 
 	XLogo
 } from "./SignupModalStyles"
@@ -66,6 +66,10 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 		onClose()
 	}
 
+	const handleNextClick = () => {
+		console.log("Next clicked")
+	}
+
 	const theme = useTheme()
 
 	return (
@@ -109,7 +113,7 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 							value={name}
 							onChange={(e) => setName(e.target.value)}
 						/>
-						<SignupMode> 
+						<Box component={"div"} className="signup-mode-container"> 
 							{signupMode === "phone" && <TextField
 								id="phone-input"
 								label="Phone"
@@ -140,7 +144,7 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 							>
 								{signupMode == "phone" ? "Use email instead" : "Use phone instead"}
 							</Typography>
-						</SignupMode>
+						</Box>
 					</TextFieldContainer>
 					<DOBContainer>
 						<Typography variant="body1" fontWeight={"bold"}>Date of Birth</Typography>
@@ -200,6 +204,7 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 						</Stack>
 					</DOBContainer>
 				</ModalContent>
+				<NextButton onClick={handleNextClick}>Next</NextButton>
 			</Box>
 		</ModalWrapper>
 	)

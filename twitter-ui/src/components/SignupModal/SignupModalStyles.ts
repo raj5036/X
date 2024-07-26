@@ -1,4 +1,4 @@
-import { Box, Modal, Stack } from "@mui/material";
+import { Box, Button, Modal, Stack } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const ModalWrapper = styled(Modal)(({ theme }) => `
@@ -48,9 +48,14 @@ export const ModalContent = styled(Box)(({ theme }) => `
 		margin-bottom: ${theme.spacing(3)};
 	}
 
-	& .signup-mode-text {
-		cursor: pointer;
+	& .signup-mode-container {
 		position: relative;
+	}
+
+	& .signup-mode-text {
+		width: fit-content;
+		cursor: pointer;
+		position: absolute;
 		right: 0;
 		margin-top: ${theme.spacing(1)};
 		color: #1D9BF0;
@@ -66,16 +71,8 @@ export const TextFieldContainer = styled(Stack)(() => `
 	}
 `)
 
-export const SignupMode = styled(Box)(() => `
-	text-align: right;
-	width: 100%;
-
-	& .MuiTextField-root {
-	}
-`)
-
 export const DOBContainer = styled(Box)(({ theme }) => `
-	margin-top: ${theme.spacing(2)};
+	margin-top: ${theme.spacing(7)};
 	color: white;
 
 	& .MuiTypography-body1 {
@@ -106,3 +103,5 @@ export const DOBContainer = styled(Box)(({ theme }) => `
 		width: ${theme.spacing(27)};
 	}
 `)
+
+export const NextButton = styled(Button)(() => ``)
