@@ -2,12 +2,10 @@ import {
 	DialogContent, 
 	DialogTitle, 
 	IconButton, 
-	MenuItem, 
-	Select, 
+	MenuItem,
 	Stack, 
 	TextField, 
-	Typography,
-	SelectChangeEvent, 
+	Typography, 
 } from "@mui/material"
 import React, { useState } from "react"
 import { ChangeSignupMode, DialogWrapper, DOBContainer, SignupMode, TextFieldContainer } from "./SignupModalStyles"
@@ -25,7 +23,7 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 	const [name, setName] = useState<string>("")
 	const [email, setEmail] = useState<string>("")
 	const [phoneNumber, setPhoneNumber] = useState<string>("")
-	const [month, setMonth] = useState<string>("")
+	const [month, setMonth] = useState<string>("Month")
 	const [day, setDay] = useState<string>("")
 	const [year, setYear] = useState<string>("")
 
@@ -127,32 +125,22 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 					</Typography>
 
 					<Stack direction={"row"} spacing={2}>
-						<Select
-							id="month-input"
+						<TextField
 							label="Month"
-							variant="outlined"
-							color="info"
-							fullWidth
 							value={month}
-							placeholder="Month"
-							onChange={(e: SelectChangeEvent) => setMonth(e.target.value)}
+							onChange={(e) => setMonth(e.target.value)}
+							select
+							fullWidth
 						>
-							{getMonths().map((month) => <MenuItem 
-								key={month + 'month-input'} 
-								value={month}
-							>
-								{month}
-							</MenuItem>)}
-						</Select>
+							{getMonths().map((month) => <MenuItem key={month + 'month-input'} value={month}>{month}</MenuItem>)}
+						</TextField>
 
-						<Select
+						<TextField
 							id="day-input"
 							label="Day"
-							variant="outlined"
-							color="info"
 							fullWidth
 							value={day}
-							placeholder="Day"
+							select
 							onChange={(e) => setDay(e.target.value)}
 						>
 							{Array.from({ length: 31 }, (_, i) => i + 1).map((day) => <MenuItem 
@@ -161,16 +149,14 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 							>
 								{day}
 							</MenuItem>)}
-						</Select>
+						</TextField>
 
-						<Select
+						<TextField
 							id="year-input"
 							label="Year"
-							variant="outlined"
-							color="info"
-							fullWidth
 							value={year}
-							placeholder="Year"
+							select
+							fullWidth
 							onChange={(e) => setYear(e.target.value)}
 						>
 							{Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map((year) => <MenuItem 
@@ -178,7 +164,7 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 								value={year}>
 									{year}
 								</MenuItem>)}
-						</Select>
+						</TextField>
 					</Stack>
 				</DOBContainer>
 			</DialogContent>
