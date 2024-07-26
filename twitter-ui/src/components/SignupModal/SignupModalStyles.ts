@@ -39,6 +39,8 @@ export const XLogo = styled("img")(({ theme }) => `
 
 export const ModalContent = styled(Box)(({ theme }) => `
 	padding: ${theme.spacing(2)} ${theme.spacing(7)} 0;
+	height: ${theme.spacing(45)};
+	overflow-y: scroll;
 
 	& .title {
 		font-size: ${theme.spacing(3.5)};

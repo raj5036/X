@@ -199,7 +199,7 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 							</TextField>
 						</Stack>
 					</DOBContainer>
-					</ModalContent>
+				</ModalContent>
 			</Box>
 		</ModalWrapper>
 	)
