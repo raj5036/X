@@ -1,6 +1,16 @@
-import { DialogContent, DialogTitle, IconButton, TextField, Typography } from "@mui/material"
+import { 
+	DialogContent, 
+	DialogTitle, 
+	IconButton, 
+	MenuItem, 
+	Select, 
+	Stack, 
+	TextField, 
+	Typography,
+	SelectChangeEvent, 
+} from "@mui/material"
 import React, { useState } from "react"
-import { ChangeSignupMode, DialogWrapper, SignupMode, TextFieldContainer } from "./SignupModalStyles"
+import { ChangeSignupMode, DialogWrapper, DOBContainer, SignupMode, TextFieldContainer } from "./SignupModalStyles"
 import CloseIcon from '@mui/icons-material/Close'
 
 type ComponentProps = {
@@ -15,13 +25,46 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 	const [name, setName] = useState<string>("")
 	const [email, setEmail] = useState<string>("")
 	const [phoneNumber, setPhoneNumber] = useState<string>("")
+	const [month, setMonth] = useState<string>("")
+	const [day, setDay] = useState<string>("")
+	const [year, setYear] = useState<string>("")
+
+	const getMonths = () => {
+		const months = [
+			'January',
+			'February',
+			'March',
+			'April',
+			'May',
+			'June',
+			'July',
+			'August',
+			'September',
+			'October',
+			'November',
+			'December'
+		]
+		return months
+	}
+
+	const handleModalClose = () => {
+		setName(() => {
+			setEmail("")
+			setPhoneNumber("")
+			setMonth("")
+			setDay("")
+			setYear("")
+			return ""
+		})
+		onClose()
+	}
 
 	return (
-		<DialogWrapper open={open} onClose={onClose} aria-labelledby="signup-modal">
+		<DialogWrapper open={open} onClose={handleModalClose} aria-labelledby="signup-modal">
 			<DialogTitle id="signup-modal">Create your account</DialogTitle>
 			<IconButton
 				aria-label="close"
-				onClick={onClose}
+				onClick={handleModalClose}
 				sx={{
 					position: 'absolute',
 					right: 8,
@@ -76,12 +119,68 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 						</ChangeSignupMode>
 					</SignupMode>
 				</TextFieldContainer>
+				<DOBContainer>
+					<Typography variant="body1" fontWeight={"bold"}>Date of Birth</Typography>
+					<Typography variant="caption">
+						This will not be shown publicly. Confirm your own age, even if this account is for a business,
+						a pet, or something else.
+					</Typography>
 
-				<Typography variant="body1" fontWeight={"bold"}>Date of Birth</Typography>
-				<Typography variant="caption">
-					This will not be shown publicly. Confirm your own age, even if this account is for a business,
-					a pet, or something else.
-				</Typography>
+					<Stack direction={"row"} spacing={2}>
+						<Select
+							id="month-input"
+							label="Month"
+							variant="outlined"
+							color="info"
+							fullWidth
+							value={month}
+							placeholder="Month"
+							onChange={(e: SelectChangeEvent) => setMonth(e.target.value)}
+						>
+							{getMonths().map((month) => <MenuItem 
+								key={month + 'month-input'} 
+								value={month}
+							>
+								{month}
+							</MenuItem>)}
+						</Select>
+
+						<Select
+							id="day-input"
+							label="Day"
+							variant="outlined"
+							color="info"
+							fullWidth
+							value={day}
+							placeholder="Day"
+							onChange={(e) => setDay(e.target.value)}
+						>
+							{Array.from({ length: 31 }, (_, i) => i + 1).map((day) => <MenuItem 
+								key={day + 'day-input'}
+								value={day}
+							>
+								{day}
+							</MenuItem>)}
+						</Select>
+
+						<Select
+							id="year-input"
+							label="Year"
+							variant="outlined"
+							color="info"
+							fullWidth
+							value={year}
+							placeholder="Year"
+							onChange={(e) => setYear(e.target.value)}
+						>
+							{Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map((year) => <MenuItem 
+								key={year + 'year-input'}
+								value={year}>
+									{year}
+								</MenuItem>)}
+						</Select>
+					</Stack>
+				</DOBContainer>
 			</DialogContent>
 		</DialogWrapper>
 	)

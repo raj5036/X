@@ -48,3 +48,20 @@ export const ChangeSignupMode = styled(Typography)(({ theme }) => `
 		text-decoration: underline;
 	}
 `)
+
+export const DOBContainer = styled(Box)(({ theme }) => `
+	margin-top: ${theme.spacing(2)};
+	color: white;
+
+	& .MuiTypography-body1 {
+		margin-bottom: ${theme.spacing(1.2)};
+	}
+
+	& .MuiTypography-caption {
+		color: gray;
+	}
+
+	& .MuiInputBase-root {
+		color: white;
+	}
+`)
