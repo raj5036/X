@@ -1,8 +1,8 @@
-import { Box, Button, Modal, Stack } from "@mui/material";
+import { Box, Modal, Stack } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const ModalWrapper = styled(Modal)(({ theme }) => `
-	height: ${theme.spacing(65)};
+	height: ${theme.spacing(61)};
 	width: ${theme.spacing(70)};
 	position: absolute;
 	top: 50%;
@@ -104,4 +104,22 @@ export const DOBContainer = styled(Box)(({ theme }) => `
 	}
 `)
 
-export const NextButton = styled(Button)(() => ``)
+export const ButtonContainer = styled(Box)(({ theme }) => `
+	height: ${theme.spacing(10)};
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	& .next-button {
+		padding: ${theme.spacing(0.5)};
+		color: black;
+		background-color: white;
+		height: ${theme.spacing(8)};
+		width: ${theme.spacing(55)};
+		border-radius: ${theme.spacing(5)};
+		text-transform: none;
+		font-size: ${theme.spacing(2.5)};
+		font-weight: 700;
+	}
+`)

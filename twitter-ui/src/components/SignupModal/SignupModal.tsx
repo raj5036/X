@@ -5,15 +5,16 @@ import {
 	TextField, 
 	Typography, 
 	Box,
-	useTheme
+	useTheme,
+	Button
 } from "@mui/material"
 import React, { useState } from "react"
 import { 
+	ButtonContainer,
 	DOBContainer, 
 	ModalContent, 
 	ModalHeaderControls, 
 	ModalWrapper, 
-	NextButton,  
 	TextFieldContainer, 
 	XLogo
 } from "./SignupModalStyles"
@@ -204,7 +205,13 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 						</Stack>
 					</DOBContainer>
 				</ModalContent>
-				<NextButton onClick={handleNextClick}>Next</NextButton>
+				<ButtonContainer component={"div"}>	
+					<Button
+						className="next-button"
+						variant="contained"
+						onClick={handleNextClick}
+					>Next</Button>
+				</ButtonContainer>
 			</Box>
 		</ModalWrapper>
 	)
