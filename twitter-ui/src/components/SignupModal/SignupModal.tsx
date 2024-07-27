@@ -11,10 +11,11 @@ import {
 import React, { useState } from "react"
 import { 
 	ButtonContainer,
-	DOBContainer, 
+	CustomModal,
+	DOBContainer,    
 	ModalContent, 
 	ModalHeaderControls, 
-	ModalWrapper, 
+	SignupFormControls, 
 	TextFieldContainer, 
 	XLogo
 } from "./SignupModalStyles"
@@ -33,7 +34,7 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 	const [name, setName] = useState<string>("")
 	const [email, setEmail] = useState<string>("")
 	const [phoneNumber, setPhoneNumber] = useState<string>("")
-	const [month, setMonth] = useState<string>("Month")
+	const [month, setMonth] = useState<string>("")
 	const [day, setDay] = useState<string>("")
 	const [year, setYear] = useState<string>("")
 
@@ -74,12 +75,12 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 	const theme = useTheme()
 
 	return (
-		<ModalWrapper 
-			open={open} 
-			onClose={handleModalClose} 
+		<CustomModal 
+			open={open}
+			onClose={handleModalClose}
 			aria-labelledby="signup-modal"
 		>
-			<Box component={"div"}>
+			<ModalContent component="div">
 				<ModalHeaderControls 
 					direction={"row"} 
 					justifyContent={"flex-start"} 
@@ -100,7 +101,7 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 						alt="x-logo"
 					/>
 				</ModalHeaderControls>
-				<ModalContent>
+				<SignupFormControls>
 					<Typography className="title">Create your account</Typography>
 					<TextFieldContainer direction={"column"} spacing={2}>
 						<TextField 
@@ -204,7 +205,7 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 							</TextField>
 						</Stack>
 					</DOBContainer>
-				</ModalContent>
+				</SignupFormControls>
 				<ButtonContainer component={"div"}>	
 					<Button
 						className="next-button"
@@ -212,8 +213,8 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 						onClick={handleNextClick}
 					>Next</Button>
 				</ButtonContainer>
-			</Box>
-		</ModalWrapper>
+			</ModalContent>
+		</CustomModal>
 	)
 }
 

@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 import SignupModal from "../../components/SignupModal/SignupModal";
 
 const LoginPage: React.FC = () => {
-	const [signUpModalOpen, setSignUpModalOpen] = useState<boolean>(true)
+	const [signUpModalOpen, setSignUpModalOpen] = useState<boolean>(false)
 
 	const theme = useTheme()
 

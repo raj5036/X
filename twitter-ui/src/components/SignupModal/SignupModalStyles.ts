@@ -1,33 +1,22 @@
 import { Box, Modal, Stack } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-export const ModalWrapper = styled(Modal)(({ theme }) => `
-	height: ${theme.spacing(61)};
-	width: ${theme.spacing(70)};
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	color: white;
-	background-color: black;
-	padding: ${theme.spacing(1)};
-	border: 1px solid white;
-	border-radius: ${theme.spacing(1.5)};
-	box-shadow: 24;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-
-	& .MuiPaper-root {
-		color: white;
-		background-color: black;
-		margin: 0;
-		padding: 0;
-	}
-
+export const CustomModal = styled(Modal)(() => `
 	& .MuiBackdrop-root: {
             backgroundColor: rgba(0, 0, 0, 0.5);
 	}
+`)
+
+export const ModalContent = styled(Box)(({ theme }) => `
+	height: ${theme.spacing(61)};
+	width: ${theme.spacing(70)};
+	color: white;
+	background-color: black;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: ${theme.spacing(1)};
 `)
 
 export const ModalHeaderControls = styled(Stack)(() => ``) 
@@ -37,7 +26,7 @@ export const XLogo = styled("img")(({ theme }) => `
 	width: ${theme.spacing(3)};
 `)
 
-export const ModalContent = styled(Box)(({ theme }) => `
+export const SignupFormControls = styled(Box)(({ theme }) => `
 	padding: ${theme.spacing(2)} ${theme.spacing(7)} 0;
 	height: ${theme.spacing(45)};
 	overflow-y: scroll;
