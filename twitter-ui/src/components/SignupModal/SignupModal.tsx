@@ -8,7 +8,7 @@ import {
 	useTheme,
 	Button
 } from "@mui/material"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { 
 	ButtonContainer,
 	CustomModal,
@@ -37,6 +37,15 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 	const [month, setMonth] = useState<string>("")
 	const [day, setDay] = useState<string>("")
 	const [year, setYear] = useState<string>("")
+	const [nextButtonDisabled, setNextButtonDisabled] = useState<boolean>(true)
+
+	useEffect(() => {
+		if (name && (phoneNumber || email) && month && day && year) {
+			setNextButtonDisabled(false)
+		} else {
+			setNextButtonDisabled(true)
+		}
+	}, [name, phoneNumber, email, month, day, year])
 
 	const getMonths = () => {
 		const months = [
@@ -165,8 +174,14 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 								required
 								value={month}
 								onChange={(e) => setMonth(e.target.value)}
+								sx={{
+									color: "white"
+								}}
 							>
-								{getMonths().map((month) => <MenuItem key={month + 'month-input'} value={month}>{month}</MenuItem>)}
+								{getMonths().map((month) => <MenuItem 
+									key={month + 'month-input'} 
+									value={month}
+								>{month}</MenuItem>)}
 							</TextField>
 
 							<TextField
@@ -210,6 +225,7 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 					<Button
 						className="next-button"
 						variant="contained"
+						disabled={nextButtonDisabled}
 						onClick={handleNextClick}
 					>Next</Button>
 				</ButtonContainer>

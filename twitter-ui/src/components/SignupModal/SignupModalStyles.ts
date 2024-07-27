@@ -3,7 +3,13 @@ import { styled } from "@mui/material/styles";
 
 export const CustomModal = styled(Modal)(() => `
 	& .MuiBackdrop-root: {
-            backgroundColor: rgba(0, 0, 0, 0.5);
+		backgroundColor: rgba(0, 0, 0, 0.5);
+	}
+
+	& ul: {
+		color: white;
+		background-color: black;
+		border: solid 1px white;
 	}
 `)
 
@@ -115,4 +121,10 @@ export const ButtonContainer = styled(Box)(({ theme }) => `
 			background-color: gray;
 		}
 	}
+
+	.MuiButtonBase-root:disabled {
+  		cursor: not-allowed;
+  		pointer-events: auto;
+	}
+
 `)
