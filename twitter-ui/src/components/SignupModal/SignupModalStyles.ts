@@ -110,5 +110,9 @@ export const ButtonContainer = styled(Box)(({ theme }) => `
 		text-transform: none;
 		font-size: ${theme.spacing(2.5)};
 		font-weight: 700;
+
+		:hover {
+			background-color: gray;
+		}
 	}
 `)
