@@ -108,8 +108,8 @@ export const ButtonContainer = styled(Box)(({ theme }) => `
 
 	& .next-button {
 		padding: ${theme.spacing(0.5)};
-		color: black;
-		background-color: white;
+		color: black !important;
+		background-color: white !important;
 		height: ${theme.spacing(8)};
 		width: ${theme.spacing(55)};
 		border-radius: ${theme.spacing(5)};
