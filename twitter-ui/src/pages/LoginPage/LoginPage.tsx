@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import XLogo from '../../assets/images/logo-white.png'
 import { 
 	Caption, 
@@ -16,11 +16,20 @@ import { Typography, useTheme } from "@mui/material";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { Link } from "react-router-dom";
 import SignupModal from "../../components/SignupModal/SignupModal";
+import { PAGE_TITLES } from "../../utils/Constants";
 
 const LoginPage: React.FC = () => {
 	const [signUpModalOpen, setSignUpModalOpen] = useState<boolean>(false)
 
 	const theme = useTheme()
+
+	useEffect(() => {
+		if (signUpModalOpen) {
+			document.title = PAGE_TITLES.LOGIN.SIGNUP_FLOW
+		} else {
+			document.title = PAGE_TITLES.LOGIN.DEFAULT
+		}
+	}, [signUpModalOpen])
 
 	const handleGoogleLoginSuccess = (credentialResponse: CredentialResponse) => {
 		console.log(credentialResponse);
