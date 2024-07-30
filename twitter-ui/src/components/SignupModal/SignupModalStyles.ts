@@ -99,6 +99,13 @@ export const DOBContainer = styled(Box)(({ theme }) => `
 	}
 `)
 
+export const ReCAPTCHAContainer = styled(Box)(({ theme }) => `
+	margin: ${theme.spacing(3)} auto ${theme.spacing(2)};
+	display: flex;
+	justify-content: center;
+	align-items: center;
+`)
+
 export const ButtonContainer = styled(Box)(({ theme }) => `
 	height: ${theme.spacing(10)};
 	width: 100%;
@@ -108,8 +115,8 @@ export const ButtonContainer = styled(Box)(({ theme }) => `
 
 	& .next-button {
 		padding: ${theme.spacing(0.5)};
-		color: black;
-		background-color: white;
+		color: black !important;
+		background-color: white !important;
 		height: ${theme.spacing(8)};
 		width: ${theme.spacing(55)};
 		border-radius: ${theme.spacing(5)};

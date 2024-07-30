@@ -15,12 +15,15 @@ import {
 	DOBContainer,    
 	ModalContent, 
 	ModalHeaderControls, 
+	ReCAPTCHAContainer, 
 	SignupFormControls, 
 	TextFieldContainer, 
 	XLogo
 } from "./SignupModalStyles"
 import CloseIcon from '@mui/icons-material/Close'
 import XWhiteLogo from '../../assets/images/logo-white.png'
+import ReCAPTCHA from 'react-google-recaptcha'
+import { GOOGLE_RECAPTCHA_CREDENTIALS } from "../../config/config"
 
 type ComponentProps = {
 	open: boolean,
@@ -37,15 +40,16 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 	const [month, setMonth] = useState<string>("")
 	const [day, setDay] = useState<string>("")
 	const [year, setYear] = useState<string>("")
+	const [captchaValue, setCaptchaValue] = useState<string>("")
 	const [nextButtonDisabled, setNextButtonDisabled] = useState<boolean>(true)
 
 	useEffect(() => {
-		if (name && (phoneNumber || email) && month && day && year) {
+		if (name && (phoneNumber || email) && month && day && year && captchaValue) {
 			setNextButtonDisabled(false)
 		} else {
 			setNextButtonDisabled(true)
 		}
-	}, [name, phoneNumber, email, month, day, year])
+	}, [name, phoneNumber, email, month, day, year, captchaValue])
 
 	const getMonths = () => {
 		const months = [
@@ -75,6 +79,14 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 			return ""
 		})
 		onClose()
+	}
+
+	const handleCaptchaSubmit = (val: string | null) => {
+		if (!val) {
+			return
+		}
+
+		setCaptchaValue(val)
 	}
 
 	const handleNextClick = () => {
@@ -220,6 +232,13 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 							</TextField>
 						</Stack>
 					</DOBContainer>
+					<ReCAPTCHAContainer>
+						<ReCAPTCHA
+							sitekey={GOOGLE_RECAPTCHA_CREDENTIALS.SITE_KEY}
+							theme="dark"
+							onChange={handleCaptchaSubmit}
+						/>
+					</ReCAPTCHAContainer>
 				</SignupFormControls>
 				<ButtonContainer component={"div"}>	
 					<Button
