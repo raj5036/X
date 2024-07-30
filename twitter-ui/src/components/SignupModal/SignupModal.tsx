@@ -15,12 +15,15 @@ import {
 	DOBContainer,    
 	ModalContent, 
 	ModalHeaderControls, 
+	ReCAPTCHAContainer, 
 	SignupFormControls, 
 	TextFieldContainer, 
 	XLogo
 } from "./SignupModalStyles"
 import CloseIcon from '@mui/icons-material/Close'
 import XWhiteLogo from '../../assets/images/logo-white.png'
+import ReCAPTCHA from 'react-google-recaptcha'
+import { GOOGLE_RECAPTCHA_CREDENTIALS } from "../../config/config"
 
 type ComponentProps = {
 	open: boolean,
@@ -220,6 +223,15 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 							</TextField>
 						</Stack>
 					</DOBContainer>
+					<ReCAPTCHAContainer>
+						<ReCAPTCHA
+							sitekey={GOOGLE_RECAPTCHA_CREDENTIALS.SITE_KEY}
+							theme="dark"
+							onChange={(val) => {
+								console.log(val)
+							}}
+						/>
+					</ReCAPTCHAContainer>
 				</SignupFormControls>
 				<ButtonContainer component={"div"}>	
 					<Button

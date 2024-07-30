@@ -99,6 +99,13 @@ export const DOBContainer = styled(Box)(({ theme }) => `
 	}
 `)
 
+export const ReCAPTCHAContainer = styled(Box)(({ theme }) => `
+	margin: ${theme.spacing(3)} auto ${theme.spacing(2)};
+	display: flex;
+	justify-content: center;
+	align-items: center;
+`)
+
 export const ButtonContainer = styled(Box)(({ theme }) => `
 	height: ${theme.spacing(10)};
 	width: 100%;
