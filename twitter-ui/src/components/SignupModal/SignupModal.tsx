@@ -1,39 +1,32 @@
 import {  
 	IconButton, 
-	MenuItem,
-	Stack, 
-	TextField, 
-	Typography, 
-	Box,
 	useTheme,
 	Button
 } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import { 
 	ButtonContainer,
-	CustomModal,
-	DOBContainer,    
+	CustomModal,  
 	ModalContent, 
 	ModalHeaderControls, 
 	ReCAPTCHAContainer, 
 	SignupFormControls, 
-	TextFieldContainer, 
 	XLogo
 } from "./SignupModalStyles"
 import CloseIcon from '@mui/icons-material/Close'
 import XWhiteLogo from '../../assets/images/logo-white.png'
 import ReCAPTCHA from 'react-google-recaptcha'
-import { GOOGLE_RECAPTCHA_CREDENTIALS } from "../../config/config"
+import { config } from "../../config/config"
+import BasicInfoSetter from "./BasicInfoSetter/BasicInfoSetter"
+import { UserSignUpMode, UserSignUpModes } from "../../utils/Constants"
 
 type ComponentProps = {
 	open: boolean,
 	onClose: () => void
 }
 
-type UserSignUpModes = "phone" | "email"
-
 const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
-	const [signupMode, setSignupMode] = useState<UserSignUpModes>("phone")
+	const [signupMode, setSignupMode] = useState<UserSignUpMode>(UserSignUpModes.EMAIL)
 	const [name, setName] = useState<string>("")
 	const [email, setEmail] = useState<string>("")
 	const [phoneNumber, setPhoneNumber] = useState<string>("")
@@ -50,24 +43,6 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 			setNextButtonDisabled(true)
 		}
 	}, [name, phoneNumber, email, month, day, year, captchaValue])
-
-	const getMonths = () => {
-		const months = [
-			'January',
-			'February',
-			'March',
-			'April',
-			'May',
-			'June',
-			'July',
-			'August',
-			'September',
-			'October',
-			'November',
-			'December'
-		]
-		return months
-	}
 
 	const handleModalClose = () => {
 		setName(() => {
@@ -91,7 +66,30 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 
 	const handleNextClick = () => {
 		console.log("Next clicked")
+
+		const dob = `${year}-${month}-${day}`
+		console.log(dob)
+		// Perform createUser mutation
+		
+		// Close modal
 	}
+
+	// const CREATE_USER = gql`
+	// 	mutation createUser(
+	// 		$name: String!, 
+	// 		$email: String, 
+	// 		$phoneNumber: String, 
+	// 		$username: String!, 
+	// 		$password: String!, 
+	// 		$DOB: String!
+	// 	) {
+	// 		createUser (input:$input) {
+	// 			name,
+	// 			DOB,
+	// 			password
+	// 		}
+	// 	}
+	// `
 
 	const theme = useTheme()
 
@@ -111,10 +109,10 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 					<IconButton
 						aria-label="close"
 						onClick={handleModalClose}
-						sx={{
-							color: (theme) => theme.palette.grey[500],
-						}}
-						>
+							sx={{
+								color: (theme) => theme.palette.grey[500],
+							}}
+					>
 						<CloseIcon />
 					</IconButton>
 					<XLogo
@@ -123,118 +121,25 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 					/>
 				</ModalHeaderControls>
 				<SignupFormControls>
-					<Typography className="title">Create your account</Typography>
-					<TextFieldContainer direction={"column"} spacing={2}>
-						<TextField 
-							id="name-input"
-							label="Name"
-							type="text"
-							variant="outlined"
-							required
-							fullWidth
-							color="info"
-							value={name}
-							onChange={(e) => setName(e.target.value)}
-						/>
-						<Box component={"div"} className="signup-mode-container"> 
-							{signupMode === "phone" && <TextField
-								id="phone-input"
-								label="Phone"
-								variant="outlined"
-								type="number"
-								required
-								fullWidth
-								color="info"
-								value={phoneNumber}
-								onChange={(e) => setPhoneNumber(e.target.value)}
-							/>}
-
-							{signupMode === "email" && <TextField
-								id="email-input"
-								label="Email"
-								type="email"
-								variant="outlined"
-								required
-								fullWidth
-								color="info"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-							/>}
-							<Typography 
-								className="signup-mode-text"
-								variant="body2"
-								onClick={() => setSignupMode(signupMode == "phone" ? "email" : "phone")}
-							>
-								{signupMode == "phone" ? "Use email instead" : "Use phone instead"}
-							</Typography>
-						</Box>
-					</TextFieldContainer>
-					<DOBContainer>
-						<Typography variant="body1" fontWeight={"bold"}>Date of Birth</Typography>
-						<Typography variant="caption">
-							This will not be shown publicly. Confirm your own age, even if this account is for a business,
-							a pet, or something else.
-						</Typography>
-
-						<Stack direction={"row"} spacing={2}>
-							<TextField
-								className="month-input"
-								label="Month"
-								fullWidth
-								select
-								color="info"
-								required
-								value={month}
-								onChange={(e) => setMonth(e.target.value)}
-								sx={{
-									color: "white"
-								}}
-							>
-								{getMonths().map((month) => <MenuItem 
-									key={month + 'month-input'} 
-									value={month}
-								>{month}</MenuItem>)}
-							</TextField>
-
-							<TextField
-								className="day-input"
-								label="Day"
-								fullWidth
-								select
-								color="info"
-								required
-								value={day}
-								onChange={(e) => setDay(e.target.value)}
-							>
-								{Array.from({ length: 31 }, (_, i) => i + 1).map((day) => <MenuItem 
-									key={day + 'day-input'}
-									value={day}
-								>
-									{day}
-								</MenuItem>)}
-							</TextField>
-
-							<TextField
-								className="year-input"
-								label="Year"
-								select
-								fullWidth
-								color="info"
-								required
-								value={year}
-								onChange={(e) => setYear(e.target.value)}
-							>
-								{Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map((year) => <MenuItem 
-									key={year + 'year-input'}
-									value={year}>
-										{year}
-									</MenuItem>)}
-							</TextField>
-						</Stack>
-					</DOBContainer>
+					<BasicInfoSetter
+						name={name}
+						setName={setName}
+						email={email}
+						setEmail={setEmail}
+						phoneNumber={phoneNumber}
+						setPhoneNumber={setPhoneNumber}
+						month={month}
+						setMonth={setMonth}
+						day={day}
+						setDay={setDay}
+						year={year}
+						setYear={setYear}
+						signupMode={signupMode}
+						setSignupMode={setSignupMode}
+					/>
 					<ReCAPTCHAContainer>
 						<ReCAPTCHA
-							sitekey={GOOGLE_RECAPTCHA_CREDENTIALS.SITE_KEY}
+							sitekey={config.GOOGLE_RECAPTCHA_CREDENTIALS.SITE_KEY}
 							theme="dark"
 							onChange={handleCaptchaSubmit}
 						/>
