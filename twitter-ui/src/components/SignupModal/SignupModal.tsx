@@ -1,24 +1,25 @@
 import {  
 	IconButton, 
 	useTheme,
-	Button
+	Button,
+	Stepper,
+	Step,
+	StepButton
 } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import { 
-	ButtonContainer,
+	ButtonsContainer,
 	CustomModal,  
 	ModalContent, 
-	ModalHeaderControls, 
-	ReCAPTCHAContainer, 
+	ModalHeaderControls,  
 	SignupFormControls, 
 	XLogo
 } from "./SignupModalStyles"
 import CloseIcon from '@mui/icons-material/Close'
 import XWhiteLogo from '../../assets/images/logo-white.png'
-import ReCAPTCHA from 'react-google-recaptcha'
-import { config } from "../../config/config"
 import BasicInfoSetter from "./BasicInfoSetter/BasicInfoSetter"
 import { UserSignUpMode, UserSignUpModes } from "../../utils/Constants"
+import AuthInfoSetter from "./AuthInfoSetter/AuthInfoSetter"
 
 type ComponentProps = {
 	open: boolean,
@@ -26,6 +27,10 @@ type ComponentProps = {
 }
 
 const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
+	const [activeStep, setActiveStep] = useState<number>(0)
+	const [completed, setCompleted] = React.useState<{
+		[k: number]: boolean
+	}>({})
 	const [signupMode, setSignupMode] = useState<UserSignUpMode>(UserSignUpModes.EMAIL)
 	const [name, setName] = useState<string>("")
 	const [email, setEmail] = useState<string>("")
@@ -35,14 +40,20 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 	const [year, setYear] = useState<string>("")
 	const [captchaValue, setCaptchaValue] = useState<string>("")
 	const [nextButtonDisabled, setNextButtonDisabled] = useState<boolean>(true)
+	const [submitButtonDisabled, setSubmitButtonDisabled] = useState<boolean>(true)
 
 	useEffect(() => {
-		if (name && (phoneNumber || email) && month && day && year && captchaValue) {
+		if (name && (phoneNumber || email) && month && day && year) {
 			setNextButtonDisabled(false)
 		} else {
 			setNextButtonDisabled(true)
 		}
-	}, [name, phoneNumber, email, month, day, year, captchaValue])
+	}, [name, phoneNumber, email, month, day, year])
+
+	const steps = [
+		"Set basic Info",
+		"Set username and password",
+	]
 
 	const handleModalClose = () => {
 		setName(() => {
@@ -56,22 +67,23 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 		onClose()
 	}
 
-	const handleCaptchaSubmit = (val: string | null) => {
-		if (!val) {
-			return
-		}
-
-		setCaptchaValue(val)
-	}
-
 	const handleNextClick = () => {
 		console.log("Next clicked")
 
 		const dob = `${year}-${month}-${day}`
 		console.log(dob)
+		setActiveStep(step => step + 1)
 		// Perform createUser mutation
 		
 		// Close modal
+	}
+
+	const handleBackClick = () => {
+		setActiveStep(step => step - 1)
+	}
+
+	const handleSubmitClick = () => {
+		console.log("Submit clicked")
 	}
 
 	// const CREATE_USER = gql`
@@ -90,6 +102,10 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 	// 		}
 	// 	}
 	// `
+
+	const handleStep = (step: number) => () => {
+		setActiveStep(step)
+	}
 
 	const theme = useTheme()
 
@@ -121,38 +137,63 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 					/>
 				</ModalHeaderControls>
 				<SignupFormControls>
-					<BasicInfoSetter
-						name={name}
-						setName={setName}
-						email={email}
-						setEmail={setEmail}
-						phoneNumber={phoneNumber}
-						setPhoneNumber={setPhoneNumber}
-						month={month}
-						setMonth={setMonth}
-						day={day}
-						setDay={setDay}
-						year={year}
-						setYear={setYear}
-						signupMode={signupMode}
-						setSignupMode={setSignupMode}
-					/>
-					<ReCAPTCHAContainer>
-						<ReCAPTCHA
-							sitekey={config.GOOGLE_RECAPTCHA_CREDENTIALS.SITE_KEY}
-							theme="dark"
-							onChange={handleCaptchaSubmit}
-						/>
-					</ReCAPTCHAContainer>
+					<Stepper nonLinear activeStep={activeStep}>
+						{steps.map((label, index) => {
+							return (
+								<Step key={label} completed={completed[index]}>
+									<StepButton key={index} onClick={handleStep(index)}>{label}</StepButton>
+								</Step>
+							)}
+						)}
+					</Stepper>
+					{activeStep == 0 
+						? (
+							<BasicInfoSetter
+								name={name}
+								email={email}
+								phoneNumber={phoneNumber}
+								month={month}
+								day={day}
+								year={year}
+								setName={setName}
+								setEmail={setEmail}
+								setPhoneNumber={setPhoneNumber}
+								setMonth={setMonth}
+								setDay={setDay}
+								setYear={setYear}
+								signupMode={signupMode}
+								setSignupMode={setSignupMode}
+							/>
+						) : (
+							<AuthInfoSetter
+								setCaptchaValue={setCaptchaValue}
+							/>
+					)}
+					
 				</SignupFormControls>
-				<ButtonContainer component={"div"}>	
-					<Button
-						className="next-button"
-						variant="contained"
-						disabled={nextButtonDisabled}
-						onClick={handleNextClick}
-					>Next</Button>
-				</ButtonContainer>
+				<ButtonsContainer component={"div"}>	
+					{activeStep == 0 
+						? (
+							<Button
+								className="next-button"
+								variant="contained"
+								disabled={nextButtonDisabled}
+								onClick={handleNextClick}
+							>Next</Button>)
+						: (<>
+							<Button
+								className="back-button"
+								variant="contained"
+								onClick={handleBackClick}
+							>Back</Button>
+							<Button
+								className="submit-button"
+								variant="contained"
+								disabled={submitButtonDisabled}
+								onClick={handleSubmitClick}
+							>Submit</Button>
+						</>)}
+				</ButtonsContainer>
 			</ModalContent>
 		</CustomModal>
 	)
