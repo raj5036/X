@@ -2,9 +2,6 @@ import {
 	IconButton, 
 	useTheme,
 	Button,
-	Stepper,
-	Step,
-	StepButton
 } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import { 
@@ -28,9 +25,6 @@ type ComponentProps = {
 
 const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 	const [activeStep, setActiveStep] = useState<number>(0)
-	const [completed, setCompleted] = React.useState<{
-		[k: number]: boolean
-	}>({})
 	const [signupMode, setSignupMode] = useState<UserSignUpMode>(UserSignUpModes.EMAIL)
 	const [name, setName] = useState<string>("")
 	const [email, setEmail] = useState<string>("")
@@ -38,6 +32,8 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 	const [month, setMonth] = useState<string>("")
 	const [day, setDay] = useState<string>("")
 	const [year, setYear] = useState<string>("")
+	const [username, setUsername] = useState<string>("")
+	const [password, setPassword] = useState<string>("")
 	const [captchaValue, setCaptchaValue] = useState<string>("")
 	const [nextButtonDisabled, setNextButtonDisabled] = useState<boolean>(true)
 	const [submitButtonDisabled, setSubmitButtonDisabled] = useState<boolean>(true)
@@ -50,10 +46,13 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 		}
 	}, [name, phoneNumber, email, month, day, year])
 
-	const steps = [
-		"Set basic Info",
-		"Set username and password",
-	]
+	useEffect(() => {
+		if (username && password && captchaValue && !nextButtonDisabled) {
+			setSubmitButtonDisabled(false)
+		} else {
+			setSubmitButtonDisabled(true)
+		}
+	}, [nextButtonDisabled, username, password, captchaValue]) 
 
 	const handleModalClose = () => {
 		setName(() => {
@@ -103,10 +102,6 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 	// 	}
 	// `
 
-	const handleStep = (step: number) => () => {
-		setActiveStep(step)
-	}
-
 	const theme = useTheme()
 
 	return (
@@ -137,15 +132,6 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 					/>
 				</ModalHeaderControls>
 				<SignupFormControls>
-					<Stepper nonLinear activeStep={activeStep}>
-						{steps.map((label, index) => {
-							return (
-								<Step key={label} completed={completed[index]}>
-									<StepButton key={index} onClick={handleStep(index)}>{label}</StepButton>
-								</Step>
-							)}
-						)}
-					</Stepper>
 					{activeStep == 0 
 						? (
 							<BasicInfoSetter
@@ -165,9 +151,13 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 								setSignupMode={setSignupMode}
 							/>
 						) : (
-							<AuthInfoSetter
-								setCaptchaValue={setCaptchaValue}
-							/>
+						<AuthInfoSetter
+							setCaptchaValue={setCaptchaValue}
+							username={username}
+							setUsername={setUsername}
+							password={password}
+							setPassword={setPassword}
+						/>
 					)}
 					
 				</SignupFormControls>
@@ -182,12 +172,12 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 							>Next</Button>)
 						: (<>
 							<Button
-								className="back-button"
+								className="auth-button back-button"
 								variant="contained"
 								onClick={handleBackClick}
-							>Back</Button>
+								>Back</Button>
 							<Button
-								className="submit-button"
+								className="auth-button submit-button"
 								variant="contained"
 								disabled={submitButtonDisabled}
 								onClick={handleSubmitClick}

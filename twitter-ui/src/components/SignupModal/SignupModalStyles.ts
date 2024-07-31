@@ -66,6 +66,7 @@ export const ButtonsContainer = styled(Box)(({ theme }) => `
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	gap: ${theme.spacing(2)};
 
 	& .next-button {
 		padding: ${theme.spacing(0.5)};
@@ -80,6 +81,34 @@ export const ButtonsContainer = styled(Box)(({ theme }) => `
 
 		:hover {
 			background-color: gray;
+		}
+
+		:disabled {
+			background-color: gray !important;
+		}
+	}
+
+	& .auth-button {
+		padding: ${theme.spacing(0.5)};
+		height: ${theme.spacing(7)};
+		width: ${theme.spacing(28)};
+		border-radius: ${theme.spacing(5)};
+		text-transform: none;
+		font-size: ${theme.spacing(2.5)};
+		font-weight: 700;
+	}
+
+	& .back-button {
+		color: black !important;
+		background-color: white !important;
+	}
+
+	& .submit-button {
+		color: white !important;
+		background-color: #0288D1 !important;
+
+		:disabled {
+			background-color: gray !important;
 		}
 	}
 

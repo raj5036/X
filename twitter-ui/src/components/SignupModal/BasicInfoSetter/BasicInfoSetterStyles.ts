@@ -1,9 +1,18 @@
 import { Box, Stack } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-export const TextFieldContainer = styled(Stack)(() => `
+export const TextFieldContainer = styled(Stack)(({ theme }) => `
 	& .MuiInputBase-input {
 		color: white;
+	}
+
+	& .username-input {
+		margin-top: ${theme.spacing(2.5)};
+		margin-bottom: ${theme.spacing(3)};
+	}
+
+	& .password-input {
+		margin-bottom: ${theme.spacing(1.5)};
 	}
 `)
 
