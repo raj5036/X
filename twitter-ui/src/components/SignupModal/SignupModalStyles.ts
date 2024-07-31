@@ -25,7 +25,9 @@ export const ModalContent = styled(Box)(({ theme }) => `
 	padding: ${theme.spacing(1)};
 `)
 
-export const ModalHeaderControls = styled(Stack)(() => ``) 
+export const ModalHeaderControls = styled(Stack)(() => `
+	box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+`) 
 
 export const XLogo = styled("img")(({ theme }) => `
 	height: ${theme.spacing(3)};

@@ -27,6 +27,11 @@ const AuthInfoSetter: React.FC<ComponentProps> = ({
 
 		setCaptchaValue(val)
 	}
+
+	const handleCaptchaExpired = () => {
+		setCaptchaValue("")
+	}
+	
 	return (
 		<Box component={"div"}>
 			<Typography className="title">Set Account Credentials</Typography>
@@ -59,6 +64,7 @@ const AuthInfoSetter: React.FC<ComponentProps> = ({
 					sitekey={config.GOOGLE_RECAPTCHA_CREDENTIALS.SITE_KEY}
 					theme="dark"
 					onChange={handleCaptchaSubmit}
+					onExpired={handleCaptchaExpired}
 				/>
 			</ReCAPTCHAContainer>
 		</Box>
