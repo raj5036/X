@@ -33,9 +33,16 @@ func init() {
 func CreateUser(userInput model.CreateUserInput) (*model.User, error) {
 	inputEmail := userInput.Email
 	inputPhoneNumber := userInput.PhoneNumber
+	inputUsername := userInput.Username
 
-	if inputEmail == nil && inputPhoneNumber == nil {
-		return nil, fmt.Errorf("either email or phone number is required")
+	if (inputEmail == nil && inputPhoneNumber == nil) || inputUsername == "" {
+		return nil, fmt.Errorf("email or phone number and username are required")
+	}
+
+	// Check if user with same username already exists
+	userExists := findUser(bson.M{"username": inputUsername})
+	if userExists.Name != "" {
+		return nil, fmt.Errorf("user with same username already exists")
 	}
 
 	// Check if User with same email already exists

@@ -20,6 +20,7 @@ type CreateTweetInput struct {
 
 type CreateUserInput struct {
 	Name        string  `json:"name"`
+	Username    string  `json:"username"`
 	Password    string  `json:"password"`
 	PhoneNumber *string `json:"phoneNumber,omitempty"`
 	Email       *string `json:"email,omitempty"`
@@ -65,6 +66,7 @@ type User struct {
 	Name        string     `json:"name"`
 	PhoneNumber *string    `json:"phoneNumber,omitempty"`
 	Email       *string    `json:"email,omitempty"`
+	Username    string     `json:"username"`
 	Password    string     `json:"password"`
 	Dob         string     `json:"DOB"`
 	Tweets      []*Tweet   `json:"tweets,omitempty"`

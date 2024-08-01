@@ -19,7 +19,6 @@ func GetDatabaseHost() string {
 	HandleError(err, "Error loading .env file")
 
 	dbHost := os.Getenv("DB_HOST")
-	fmt.Println("dbHost", dbHost)
 	dbUser := os.Getenv("DB_USER")
 	dbPassword := os.Getenv("DB_PASSWORD")
 
