@@ -2,6 +2,8 @@ import {
 	IconButton, 
 	useTheme,
 	Button,
+	Box,
+	CircularProgress,
 } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import { 
@@ -26,7 +28,7 @@ type ComponentProps = {
 }
 
 const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
-	const [activeStep, setActiveStep] = useState<number>(0)
+	const [activeStep, setActiveStep] = useState<number>(1)
 	const [signupMode, setSignupMode] = useState<UserSignUpMode>(UserSignUpModes.EMAIL)
 	const [name, setName] = useState<string>("")
 	const [email, setEmail] = useState<string>("")
@@ -40,7 +42,7 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 	const [nextButtonDisabled, setNextButtonDisabled] = useState<boolean>(true)
 	const [submitButtonDisabled, setSubmitButtonDisabled] = useState<boolean>(true)
 
-	const [add_user, { data }] = useMutation(ADD_USER)
+	const [add_user, { data, loading }] = useMutation(ADD_USER)
 
 	useEffect(() => {
 		if (name && (phoneNumber || email) && month && day && year) {
@@ -180,12 +182,18 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 								variant="contained"
 								onClick={handleBackClick}
 								>Back</Button>
-							<Button
-								className="auth-button submit-button"
-								variant="contained"
-								disabled={submitButtonDisabled}
-								onClick={handleSubmitClick}
-							>Submit</Button>
+							<Box className="submit-button-container">
+								<Button
+									className="auth-button submit-button"
+									variant="contained"
+									disabled={submitButtonDisabled}
+									onClick={handleSubmitClick}
+								>Submit</Button>
+								{loading && <CircularProgress 
+									className="circular-progress"
+									size={24} 
+								/>}
+							</Box>
 						</>)}
 				</ButtonsContainer>
 			</ModalContent>

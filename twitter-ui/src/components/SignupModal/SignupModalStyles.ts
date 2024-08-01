@@ -105,12 +105,25 @@ export const ButtonsContainer = styled(Box)(({ theme }) => `
 		background-color: white !important;
 	}
 
-	& .submit-button {
-		color: white !important;
-		background-color: #0288D1 !important;
+	& .submit-button-container {
+		position: relative;
 
-		:disabled {
-			background-color: gray !important;
+		& .submit-button {
+			color: white !important;
+			background-color: #0288D1 !important;
+
+			:disabled {
+				background-color: gray !important;
+			}
+		}
+
+		& .circular-progress {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			margin-top: -12px;
+			margin-left: -12px;
 		}
 	}
 
