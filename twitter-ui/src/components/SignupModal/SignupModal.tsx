@@ -21,6 +21,7 @@ import { UserSignUpMode, UserSignUpModes } from "../../utils/Constants"
 import AuthInfoSetter from "./AuthInfoSetter/AuthInfoSetter"
 import { useMutation } from "@apollo/client"
 import { ADD_USER } from "../../utils/graphql/Mutations"
+import { toast } from "react-toastify"
 
 type ComponentProps = {
 	open: boolean,
@@ -42,7 +43,7 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 	const [nextButtonDisabled, setNextButtonDisabled] = useState<boolean>(true)
 	const [submitButtonDisabled, setSubmitButtonDisabled] = useState<boolean>(true)
 
-	const [add_user, { data, loading }] = useMutation(ADD_USER)
+	const [add_user, { data, loading, error }] = useMutation(ADD_USER)
 
 	useEffect(() => {
 		if (name && (phoneNumber || email) && month && day && year) {
@@ -59,6 +60,16 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 			setSubmitButtonDisabled(true)
 		}
 	}, [nextButtonDisabled, username, password, captchaValue]) 
+
+	useEffect(() => {
+		if (error) {
+			toast.error(error.message)
+		}
+
+		if (data) {
+			console.log("User created", data)
+		}
+	}, [data, error])
 
 	const handleModalClose = () => {
 		setName(() => {
