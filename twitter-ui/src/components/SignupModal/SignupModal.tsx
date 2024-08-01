@@ -17,6 +17,8 @@ import XWhiteLogo from '../../assets/images/logo-white.png'
 import BasicInfoSetter from "./BasicInfoSetter/BasicInfoSetter"
 import { UserSignUpMode, UserSignUpModes } from "../../utils/Constants"
 import AuthInfoSetter from "./AuthInfoSetter/AuthInfoSetter"
+import { useMutation } from "@apollo/client"
+import { ADD_USER } from "../../utils/graphql/Mutations"
 
 type ComponentProps = {
 	open: boolean,
@@ -37,6 +39,8 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 	const [captchaValue, setCaptchaValue] = useState<string>("")
 	const [nextButtonDisabled, setNextButtonDisabled] = useState<boolean>(true)
 	const [submitButtonDisabled, setSubmitButtonDisabled] = useState<boolean>(true)
+
+	const [add_user, { data }] = useMutation(ADD_USER)
 
 	useEffect(() => {
 		if (name && (phoneNumber || email) && month && day && year) {
@@ -81,26 +85,26 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 		setActiveStep(step => step - 1)
 	}
 
-	const handleSubmitClick = () => {
+	const handleSubmitClick = async () => {
 		console.log("Submit clicked")
+		try {
+			await add_user({
+				variables: {
+					input: {
+						name,
+						email,
+						phoneNumber,
+						DOB: `${month}-${day}-${year}`,
+						username,
+						password
+					}
+				}
+			})
+			console.log("User created", data)
+		} catch (e) {
+			console.log(e)
+		}
 	}
-
-	// const CREATE_USER = gql`
-	// 	mutation createUser(
-	// 		$name: String!, 
-	// 		$email: String, 
-	// 		$phoneNumber: String, 
-	// 		$username: String!, 
-	// 		$password: String!, 
-	// 		$DOB: String!
-	// 	) {
-	// 		createUser (input:$input) {
-	// 			name,
-	// 			DOB,
-	// 			password
-	// 		}
-	// 	}
-	// `
 
 	const theme = useTheme()
 
