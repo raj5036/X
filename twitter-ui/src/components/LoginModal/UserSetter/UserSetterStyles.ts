@@ -21,5 +21,9 @@ export const FormContainer = styled(Box)(({ theme }) => `
 	& .user-input {
 		margin-top: ${theme.spacing(2.5)};
 		width: ${theme.spacing(40)};
+		
+		& .MuiInputBase-root {
+			color: white;
+		}
 	}
 `)

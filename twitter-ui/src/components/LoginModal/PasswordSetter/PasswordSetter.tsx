@@ -1,6 +1,11 @@
 import React from "react";
 
-const PasswordSetter: React.FC = () => {
+type ComponentProps = {
+	password: string,
+	setPassword: React.Dispatch<React.SetStateAction<string>>
+}
+
+const PasswordSetter: React.FC<ComponentProps> = ({ password, setPassword }) => {
 	return <></>
 }
 

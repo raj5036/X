@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { CustomModal, ModalHeaderControls, XLogo } from "../SignupModal/SignupModalStyles"
 import { ButtonsContainer, LoginFormControls, LoginModalContent } from "./LoginModalStyles"
 import { Button, IconButton, useTheme } from "@mui/material"
@@ -13,6 +13,15 @@ type ComponentProps = {
 }
 const LoginModal: React.FC<ComponentProps> = ({open, onClose}) => {
 	const [activeStep, setActiveStep] = useState<number>(0)
+	const [user, setUser] = useState<string>("")
+	const [password, setPassword] = useState<string>("")
+	const [nextButtonDisabled, setNextButtonDisabled] = useState<boolean>(true)
+
+	useEffect(() => {
+		if (user) {
+			setNextButtonDisabled(false)
+		}
+	}, [user])
 
 	const onForgotPassword = () => {
 		console.log("Forgot password")
@@ -52,7 +61,10 @@ const LoginModal: React.FC<ComponentProps> = ({open, onClose}) => {
 					/>
 				</ModalHeaderControls>
 				<LoginFormControls>
-					{activeStep === 0 ? <UserSetter/> : <PasswordSetter/>}
+					{activeStep === 0 
+						? <UserSetter user={user} setUser={setUser}/> 
+						: <PasswordSetter password={password} setPassword={setPassword}/>
+					}
 				</LoginFormControls>
 				<ButtonsContainer direction={"column"} justifyContent={"center"} alignItems={"center"}>
 					{activeStep === 0 ? (<>
@@ -60,6 +72,7 @@ const LoginModal: React.FC<ComponentProps> = ({open, onClose}) => {
 							className="login-next-button"
 							variant="contained"
 							color="info"
+							disabled={nextButtonDisabled}
 							onClick={() => setActiveStep(1)}
 						>Next</Button>
 						<Button

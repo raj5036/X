@@ -20,7 +20,7 @@ export const LoginFormControls = styled(Box)(({ theme }) => `
 `)
 
 export const ButtonsContainer = styled(Stack)(({ theme }) => `
-	gap: ${theme.spacing(2)};
+	gap: ${theme.spacing(4)};
 
 	& .login-next-button {
 		width: ${theme.spacing(40)} !important;
@@ -30,17 +30,22 @@ export const ButtonsContainer = styled(Stack)(({ theme }) => `
 		font-size: ${theme.spacing(2)};
 		font-weight: 700;
 		border-radius: ${theme.spacing(3)};
+
+		:disabled {
+			cursor: not-allowed;
+			pointer-events: auto;
+			background-color: gray !important;
+		}
 	}
 
 	& .forgot-password-button {
 		width: ${theme.spacing(40)};
-		color: white;
-		background-color: black;
+		color: white !important;
+		background-color: black !important;
 		text-transform: none;
 		font-size: ${theme.spacing(2)};
 		font-weight: 700;
 		border: 1px solid rgb(29, 155, 240);
 		border-radius: ${theme.spacing(3)};
-		margin-top: ${theme.spacing(1.8)};
 	}
 `)

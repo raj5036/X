@@ -1,10 +1,14 @@
 import { Divider, Stack, TextField, Typography, useTheme } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import { FormContainer } from "./UserSetterStyles";
 import { GoogleLogin } from "@react-oauth/google";
 
-const UserSetter: React.FC = () => {
-	const [user, setUser] = useState("")
+type ComponentProps = {
+	user: string,
+	setUser: React.Dispatch<React.SetStateAction<string>>
+}
+
+const UserSetter: React.FC<ComponentProps> = ({user, setUser}) => {
 
 	const theme = useTheme()
 
