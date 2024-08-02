@@ -17,11 +17,13 @@ import {
 import CloseIcon from '@mui/icons-material/Close'
 import XWhiteLogo from '../../assets/images/logo-white.png'
 import BasicInfoSetter from "./BasicInfoSetter/BasicInfoSetter"
-import { UserSignUpMode, UserSignUpModes } from "../../utils/Constants"
+import { LOCALSTORAGE_KEYS, UserSignUpMode, USER_SIGNUP_MODES } from "../../utils/Constants"
 import AuthInfoSetter from "./AuthInfoSetter/AuthInfoSetter"
 import { useMutation } from "@apollo/client"
 import { ADD_USER } from "../../utils/graphql/Mutations"
 import { toast } from "react-toastify"
+import { CommonUtils } from "../../utils/CommonUtils"
+import { useNavigate } from "react-router-dom"
 
 type ComponentProps = {
 	open: boolean,
@@ -30,7 +32,7 @@ type ComponentProps = {
 
 const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 	const [activeStep, setActiveStep] = useState<number>(0)
-	const [signupMode, setSignupMode] = useState<UserSignUpMode>(UserSignUpModes.EMAIL)
+	const [signupMode, setSignupMode] = useState<UserSignUpMode>(USER_SIGNUP_MODES.EMAIL)
 	const [name, setName] = useState<string>("")
 	const [email, setEmail] = useState<string>("")
 	const [phoneNumber, setPhoneNumber] = useState<string>("")
@@ -44,6 +46,7 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 	const [submitButtonDisabled, setSubmitButtonDisabled] = useState<boolean>(true)
 
 	const [add_user, { data, loading, error }] = useMutation(ADD_USER)
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		if (name && (phoneNumber || email) && month && day && year) {
@@ -54,12 +57,12 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 	}, [name, phoneNumber, email, month, day, year])
 
 	useEffect(() => {
-		if (username && password && captchaValue && !nextButtonDisabled) {
+		if (username && password && captchaValue && !nextButtonDisabled && !loading) {
 			setSubmitButtonDisabled(false)
 		} else {
 			setSubmitButtonDisabled(true)
 		}
-	}, [nextButtonDisabled, username, password, captchaValue]) 
+	}, [nextButtonDisabled, username, password, captchaValue, loading]) 
 
 	useEffect(() => {
 		if (error) {
@@ -68,8 +71,13 @@ const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
 
 		if (data) {
 			console.log("User created", data)
+			CommonUtils.setItemInLocalstorage(
+				LOCALSTORAGE_KEYS.USER_TOKEN, 
+				data.createUser.token
+			)
+			navigate("/")
 		}
-	}, [data, error])
+	}, [data, error, navigate])
 
 	const handleModalClose = () => {
 		setName(() => {

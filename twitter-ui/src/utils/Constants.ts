@@ -5,9 +5,13 @@ export const PAGE_TITLES = {
 	}
 }
 
-export const UserSignUpModes = {
+export const USER_SIGNUP_MODES = {
 	PHONE: "phone",
 	EMAIL: "email",
 }
 
-export type UserSignUpMode = typeof UserSignUpModes[keyof typeof UserSignUpModes]
+export const LOCALSTORAGE_KEYS = {
+	USER_TOKEN: "user_token",
+}
+
+export type UserSignUpMode = typeof USER_SIGNUP_MODES[keyof typeof USER_SIGNUP_MODES]

@@ -1,7 +1,7 @@
 import { Box, MenuItem, Stack, TextField, Typography } from "@mui/material";
 import React from "react";
 import { DOBContainer, TextFieldContainer } from "./BasicInfoSetterStyles";
-import { UserSignUpMode, UserSignUpModes} from "../../../utils/Constants";
+import { UserSignUpMode, USER_SIGNUP_MODES} from "../../../utils/Constants";
 
 type ComponentProps = {
 	name: string,
@@ -69,7 +69,7 @@ const BasicInfoSetter: React.FC<ComponentProps> = ({
 				onChange={(e) => setName(e.target.value)}
 			/>
 			<Box component={"div"} className="signup-mode-container"> 
-				{signupMode === UserSignUpModes.PHONE && <TextField
+				{signupMode === USER_SIGNUP_MODES.PHONE && <TextField
 					id="phone-input"
 					label="Phone"
 					variant="outlined"
@@ -81,7 +81,7 @@ const BasicInfoSetter: React.FC<ComponentProps> = ({
 					onChange={(e) => setPhoneNumber(e.target.value)}
 				/>}
 
-				{signupMode === UserSignUpModes.EMAIL && <TextField
+				{signupMode === USER_SIGNUP_MODES.EMAIL && <TextField
 					id="email-input"
 					label="Email"
 					type="email"
@@ -95,9 +95,9 @@ const BasicInfoSetter: React.FC<ComponentProps> = ({
 				<Typography 
 					className="signup-mode-text"
 					variant="body2"
-					onClick={() => setSignupMode(signupMode == UserSignUpModes.PHONE 
-						? UserSignUpModes.EMAIL 
-						: UserSignUpModes.PHONE
+					onClick={() => setSignupMode(signupMode == USER_SIGNUP_MODES.PHONE 
+						? USER_SIGNUP_MODES.EMAIL 
+						: USER_SIGNUP_MODES.PHONE
 					)}
 				>
 					{signupMode == "phone" ? "Use email instead" : "Use phone instead"}
