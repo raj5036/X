@@ -12,7 +12,7 @@ type ComponentProps = {
 	onClose: () => void
 }
 const LoginModal: React.FC<ComponentProps> = ({open, onClose}) => {
-	const [activeStep, setActiveStep] = useState<number>(0)
+	const [activeStep, setActiveStep] = useState<number>(1)
 	const [user, setUser] = useState<string>("")
 	const [password, setPassword] = useState<string>("")
 	const [nextButtonDisabled, setNextButtonDisabled] = useState<boolean>(true)
@@ -20,6 +20,8 @@ const LoginModal: React.FC<ComponentProps> = ({open, onClose}) => {
 	useEffect(() => {
 		if (user) {
 			setNextButtonDisabled(false)
+		} else {
+			setNextButtonDisabled(true)
 		}
 	}, [user])
 
@@ -63,7 +65,7 @@ const LoginModal: React.FC<ComponentProps> = ({open, onClose}) => {
 				<LoginFormControls>
 					{activeStep === 0 
 						? <UserSetter user={user} setUser={setUser}/> 
-						: <PasswordSetter password={password} setPassword={setPassword}/>
+						: <PasswordSetter user={user} password={password} setPassword={setPassword}/>
 					}
 				</LoginFormControls>
 				<ButtonsContainer direction={"column"} justifyContent={"center"} alignItems={"center"}>
