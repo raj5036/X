@@ -30,7 +30,7 @@ func init() {
 	fmt.Println("Connected to MongoDB!")
 }
 
-func CreateUser(userInput model.CreateUserInput) (*model.User, error) {
+func CreateUser(userInput model.CreateUserInput) (*model.AuthPayload, error) {
 	inputEmail := userInput.Email
 	inputPhoneNumber := userInput.PhoneNumber
 	inputUsername := userInput.Username
@@ -70,14 +70,18 @@ func CreateUser(userInput model.CreateUserInput) (*model.User, error) {
 	utils.HandleError(err, "Error creating new User")
 
 	fmt.Println("Created new User with ID: ", inserted.InsertedID)
+
+	// Create JWT Token
 	user := model.User{
-		ID:          inserted.InsertedID.(primitive.ObjectID).Hex(),
 		Name:        userInput.Name,
 		Email:       userInput.Email,
 		PhoneNumber: userInput.PhoneNumber,
-		Dob:         userInput.Dob,
+		Username:    userInput.Username,
+		Password:    userInput.Password,
 	}
-	return &user, nil
+	tokenString := createUserToken(user)
+
+	return &model.AuthPayload{Token: tokenString}, nil
 }
 
 func LoginUser(loginInput model.LoginUserInput) (*model.AuthPayload, error) {
@@ -122,9 +126,11 @@ func comparePassword(password string, hashedPassword string) bool {
 
 func createUserToken(user model.User) string {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"name":  user.Name,
-		"email": user.Email,
-		"exp":   time.Now().Add(time.Hour * 24).Unix(),
+		"name":        user.Name,
+		"email":       user.Email,
+		"phoneNumber": user.PhoneNumber,
+		"username":    user.Username,
+		"exp":         time.Now().Add(time.Hour * 24).Unix(),
 	})
 
 	tokenString, err := token.SignedString(secretKey)

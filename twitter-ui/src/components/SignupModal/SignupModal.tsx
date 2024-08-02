@@ -29,7 +29,7 @@ type ComponentProps = {
 }
 
 const SignupModal: React.FC<ComponentProps> = ({ open, onClose }) => {
-	const [activeStep, setActiveStep] = useState<number>(1)
+	const [activeStep, setActiveStep] = useState<number>(0)
 	const [signupMode, setSignupMode] = useState<UserSignUpMode>(UserSignUpModes.EMAIL)
 	const [name, setName] = useState<string>("")
 	const [email, setEmail] = useState<string>("")

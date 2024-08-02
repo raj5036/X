@@ -54,7 +54,7 @@ type Query {
 }
 
 type Mutation {
-  createUser (input: CreateUserInput!): User!
+  createUser (input: CreateUserInput!): AuthPayload!
   login (input: LoginUserInput!): AuthPayload!
   createTweet (input: CreateTweetInput!): Tweet!
 }
