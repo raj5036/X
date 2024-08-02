@@ -1,9 +1,9 @@
-import { Box, Modal, Stack } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Box, Modal, Stack } from "@mui/material"
+import { styled } from "@mui/material/styles" 
 
 export const CustomModal = styled(Modal)(() => `
 	& .MuiBackdrop-root: {
-		backgroundColor: rgba(0, 0, 0, 0.5);
+		backgroundColor: rgba(91, 112, 131, 0.4);
 	}
 
 	& ul: {

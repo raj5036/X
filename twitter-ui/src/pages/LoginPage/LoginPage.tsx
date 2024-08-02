@@ -17,9 +17,11 @@ import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { Link } from "react-router-dom";
 import SignupModal from "../../components/SignupModal/SignupModal";
 import { PAGE_TITLES } from "../../utils/Constants";
+import LoginModal from "../../components/LoginModal/LoginModal";
 
 const LoginPage: React.FC = () => {
 	const [signUpModalOpen, setSignUpModalOpen] = useState<boolean>(false)
+	const [loginModalOpen, setLoginModalOpen] = useState<boolean>(true)
 
 	const theme = useTheme()
 
@@ -46,10 +48,15 @@ const LoginPage: React.FC = () => {
 
 	const handleSignInClick = () => {
 		console.log('Sign in clicked');
+		setLoginModalOpen(true)
 	}
 
-	const handleModalClose = () => {
+	const handleSignupModalClose = () => {
 		setSignUpModalOpen(false)
+	}
+
+	const handleLoginModalClose = () => {
+		setLoginModalOpen(false)
 	}
 
 	return (
@@ -68,7 +75,7 @@ const LoginPage: React.FC = () => {
 							cancel_on_tap_outside={true}
 							onSuccess={handleGoogleLoginSuccess}
 							onError={handleGoogleLoginFailure}
-					/>
+						/>
 					
 					<FormDivider textAlign="center">or</FormDivider>
 
@@ -103,7 +110,11 @@ const LoginPage: React.FC = () => {
 			</LoginContainer>
 			<SignupModal 
 				open={signUpModalOpen}
-				onClose={handleModalClose}
+				onClose={handleSignupModalClose}
+			/>
+			<LoginModal
+				open={loginModalOpen}
+				onClose={handleLoginModalClose}
 			/>
 		</React.Fragment>
 	)
